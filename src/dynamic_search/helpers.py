@@ -7,7 +7,7 @@ annotation, so a small generic builder is provided.
 
 from __future__ import annotations
 
-from typing import Optional, Sequence
+from collections.abc import Sequence
 
 from django.db.models import CharField, F, QuerySet, Value
 from django.db.models.functions import Concat
@@ -20,7 +20,7 @@ def concat_annotation(
     fields: Sequence[str],
     *,
     separator: str = " ",
-    join: Optional[str] = None,
+    join: str | None = None,
 ):
     """Return an ``annotate`` callable that concatenates ``fields`` into ``alias``.
 
@@ -28,9 +28,12 @@ def concat_annotation(
 
         {
             "field": "full_name",
-            "annotate": concat_annotation("full_name", ["first_name", "last_name"], join="user"),
+            "annotate": concat_annotation(
+                "full_name", ["first_name", "last_name"], join="user"
+            ),
             "lookup": "icontains",
         }
+
 
     The resulting callable has the signature ``(queryset, prefix) -> queryset``
     expected by the config's ``annotate`` key. ``join`` (and the runtime
@@ -39,7 +42,7 @@ def concat_annotation(
     if not fields:
         raise ValueError("concat_annotation requires at least one field.")
 
-    def annotate(queryset: QuerySet, prefix: Optional[str] = None) -> QuerySet:
+    def annotate(queryset: QuerySet, prefix: str | None = None) -> QuerySet:
         parts = [p for p in (prefix, join) if p]
         base = "__".join(parts)
 

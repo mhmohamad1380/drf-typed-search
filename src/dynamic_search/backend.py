@@ -5,20 +5,25 @@ search parameter from the request, delegates all decision-making to
 :class:`~dynamic_search.engine.SearchEngine`, and writes the result back onto
 the view (``view.search_field``) for downstream consumers such as paginators.
 
-Compiled configuration is cached per *view class* keyed by ``(model, config
-identity)`` so the (relatively expensive) validation runs once, not per request.
+A fully-built :class:`~dynamic_search.engine.SearchEngine` — including its
+precompiled typed/text routing plans — is cached per *view class*, keyed by
+``(view class, config identity, settings identity)``. Both configuration
+validation *and* plan construction therefore run once, not per request. The
+settings identity in the key means a settings change (e.g. Django's
+``override_settings`` in tests, which rebuilds the cached settings object)
+transparently invalidates stale engines without any manual bookkeeping.
 """
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple
+from typing import Any, ClassVar
 
 from rest_framework.filters import BaseFilterBackend
 
-from .config import SearchField, compile_search_fields
+from .config import compile_search_fields
 from .engine import SearchEngine
 from .exceptions import InvalidConfigurationError
-from .settings import get_settings
+from .settings import DynamicSearchSettings, get_settings
 
 __all__ = ["DynamicSearchBackend"]
 
@@ -49,8 +54,9 @@ class DynamicSearchBackend(BaseFilterBackend):
     #: Attribute the view must define.
     config_attr = "search_fields_config"
 
-    #: Per view-class cache of compiled + validated fields.
-    _compiled_cache: Dict[Tuple[int, int], List[SearchField]] = {}
+    #: Per view-class cache of fully-built engines (plans precompiled once),
+    #: keyed by ``(view class, raw config identity, settings identity)``.
+    _engine_cache: ClassVar[dict[tuple[int, int, int], SearchEngine]] = {}
 
     # --- DRF entrypoint -----------------------------------------------------
 
@@ -61,14 +67,12 @@ class DynamicSearchBackend(BaseFilterBackend):
         if not hasattr(view, "search_field"):
             view.search_field = None
 
-        raw_config = self._get_raw_config(view)
-        fields = self._get_compiled_fields(view, raw_config, queryset.model)
-
         value = request.query_params.get(settings.search_param)
         if not value or not value.strip():
             return queryset
 
-        engine = SearchEngine(fields, settings.matchers, settings)
+        raw_config = self._get_raw_config(view)
+        engine = self._get_engine(view, raw_config, queryset.model, settings)
         result = engine.search(queryset, value)
 
         view.search_field = result.search_field
@@ -80,7 +84,7 @@ class DynamicSearchBackend(BaseFilterBackend):
 
     # --- helpers ------------------------------------------------------------
 
-    def _get_raw_config(self, view: Any) -> List[Dict[str, Any]]:
+    def _get_raw_config(self, view: Any) -> list[dict[str, Any]]:
         config = getattr(view, self.config_attr, None)
         if config is None:
             raise InvalidConfigurationError(
@@ -89,20 +93,25 @@ class DynamicSearchBackend(BaseFilterBackend):
             )
         return config
 
-    def _get_compiled_fields(
-        self, view: Any, raw_config: Any, model: type
-    ) -> List[SearchField]:
-        cache_key = (id(view.__class__), id(raw_config))
-        cached = self._compiled_cache.get(cache_key)
+    def _get_engine(
+        self,
+        view: Any,
+        raw_config: Any,
+        model: type,
+        settings: DynamicSearchSettings,
+    ) -> SearchEngine:
+        cache_key = (id(view.__class__), id(raw_config), id(settings))
+        cached = self._engine_cache.get(cache_key)
         if cached is not None:
             return cached
-        compiled = compile_search_fields(raw_config, model)
-        self._compiled_cache[cache_key] = compiled
-        return compiled
+        fields = compile_search_fields(raw_config, model)
+        engine = SearchEngine(fields, settings.matchers, settings)
+        self._engine_cache[cache_key] = engine
+        return engine
 
     # --- DRF browsable API integration -------------------------------------
 
-    def get_schema_operation_parameters(self, view: Any) -> List[Dict[str, Any]]:
+    def get_schema_operation_parameters(self, view: Any) -> list[dict[str, Any]]:
         return [
             {
                 "name": get_settings().search_param,

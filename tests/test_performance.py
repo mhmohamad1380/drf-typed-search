@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import pytest
-from django.test.utils import CaptureQueriesContext
 from django.db import connection
+from django.test.utils import CaptureQueriesContext
 
 from dynamic_search.config import compile_search_fields
 from dynamic_search.engine import SearchEngine
@@ -62,3 +62,44 @@ def test_matcher_objects_are_cached():
     first = get_settings().matchers["national_code"]
     second = get_settings().matchers["national_code"]
     assert first is second
+
+
+@pytest.mark.benchmark
+def test_engine_reused_across_requests_not_rebuilt(accounts):
+    """The backend must build the engine once and reuse it per view class."""
+    from rest_framework.request import Request
+    from rest_framework.test import APIRequestFactory
+
+    from dynamic_search.backend import DynamicSearchBackend
+    from tests.models import Account
+
+    class _View:
+        search_fields_config = CONFIG
+
+    DynamicSearchBackend._engine_cache.clear()
+    backend = DynamicSearchBackend()
+    factory = APIRequestFactory()
+
+    def run(term: str) -> None:
+        req = Request(factory.get("/", {"search": term}))
+        backend.filter_queryset(req, Account.objects.all(), _View())
+
+    run("1000000001")
+    assert len(DynamicSearchBackend._engine_cache) == 1
+    engine_after_first = next(iter(DynamicSearchBackend._engine_cache.values()))
+
+    for term in ("09120000002", "5", "ali", "nomatch"):
+        run(term)
+
+    # Still exactly one engine, and the very same instance — never rebuilt.
+    assert len(DynamicSearchBackend._engine_cache) == 1
+    assert next(iter(DynamicSearchBackend._engine_cache.values())) is engine_after_first
+
+
+@pytest.mark.benchmark
+def test_multi_term_text_search_single_query(accounts):
+    engine = _engine()
+    with CaptureQueriesContext(connection) as ctx:
+        list(engine.search(_qs(), "mohammad hosseiny reza").queryset)
+    # One SELECT regardless of the number of terms/fields.
+    assert len(ctx.captured_queries) == 1

@@ -7,7 +7,7 @@ lookups, duplicate matchers, etc. before the first request.
 
 from __future__ import annotations
 
-from typing import Any, List
+from typing import Any
 
 from django.apps import AppConfig
 from django.core.checks import Error, register
@@ -22,12 +22,12 @@ class DynamicSearchConfig(AppConfig):
         register(check_dynamic_search_settings)
 
 
-def check_dynamic_search_settings(app_configs: Any, **kwargs: Any) -> List[Error]:
+def check_dynamic_search_settings(app_configs: Any, **kwargs: Any) -> list[Error]:
     """System check: eagerly build the matcher registry to validate settings."""
     from .exceptions import ConfigurationError
-    from .settings import reset_cache, get_settings
+    from .settings import get_settings, reset_cache
 
-    errors: List[Error] = []
+    errors: list[Error] = []
     reset_cache()
     try:
         get_settings()

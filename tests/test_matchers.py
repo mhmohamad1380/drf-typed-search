@@ -62,7 +62,47 @@ def test_invalid_spec_type_raises():
         build_matcher("bad", 123, "exact")  # type: ignore[arg-type]
 
 
+def test_prefilter_min_max_len():
+    m = build_matcher("nc", r"\d{10}", "exact", min_len=10, max_len=10)
+    assert m.matches("1234567890")
+    assert not m.matches("123")  # too short -> rejected before regex
+    assert not m.matches("12345678901")  # too long -> rejected before regex
+
+
+def test_prefilter_prefix():
+    m = build_matcher("phone", r"09\d{9}", "exact", prefix="09")
+    assert m.matches("09123456789")
+    assert not m.matches("19123456789")  # wrong prefix -> rejected before regex
+
+
+def test_prefilter_skips_regex_engine():
+    """A value rejected by a pre-filter must NOT invoke the regex engine."""
+
+    class SpyPattern:
+        def __init__(self):
+            self.calls = 0
+
+        def fullmatch(self, value):
+            self.calls += 1
+            return None
+
+    spy = SpyPattern()
+    m = RegexMatcher(name="nc", pattern=spy, lookup="exact", min_len=10)  # type: ignore[arg-type]
+    assert m.matches("short") is False
+    assert spy.calls == 0  # pre-filter short-circuited before the regex
+
+    assert m.matches("longenough") is False
+    assert spy.calls == 1  # passed pre-filter -> regex was consulted
+
+
+def test_prefilter_passes_through_to_regex():
+    # A value that passes the pre-filter but fails the regex still returns False.
+    m = build_matcher("nc", r"\d{10}", "exact", min_len=10, max_len=10)
+    assert m.matches("abcdefghij") is False  # right length, wrong content
+
+
 def test_matchers_satisfy_protocol():
+
     regex = build_matcher("a", r"\d+", "exact")
     call = build_matcher("b", lambda v: True, "exact")
     assert isinstance(regex, Matcher)

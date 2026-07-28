@@ -4,7 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "drf-typed-search"
-version = "1.0.0"
+version = "1.1.0"
+
 description = "A type-aware, matcher-routed search backend for Django REST Framework that intelligently routes queries to the correct field."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -76,8 +77,10 @@ include = [
     "/tests",
     "/README.md",
     "/CHANGELOG.md",
+    "/RELEASE_NOTES.md",
     "/CONTRIBUTING.md",
     "/LICENSE",
+
     "/docs",
     "/examples",
 ]
@@ -98,7 +101,10 @@ select = ["E", "F", "I", "B", "UP", "C4", "SIM", "RUF"]
 ignore = ["B904"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S101"]
+# Test view fixtures use class-level mutable config (RUF012) and occasionally
+# unpack values they don't all use (RUF059); both are fine in test code.
+"tests/*" = ["S101", "RUF012", "RUF059"]
+
 
 [tool.ruff.lint.isort]
 known-first-party = ["dynamic_search"]

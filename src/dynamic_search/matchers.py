@@ -19,15 +19,16 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from typing import Callable, Pattern, Protocol, Union, runtime_checkable
+from re import Pattern
+from typing import Callable, Protocol, Union, runtime_checkable
 
 from .exceptions import InvalidRegexError, MatcherError
 
 __all__ = [
-    "Matcher",
-    "RegexMatcher",
     "CallableMatcher",
+    "Matcher",
     "MatcherSpec",
+    "RegexMatcher",
     "build_matcher",
 ]
 
@@ -52,6 +53,11 @@ class Matcher(Protocol):
         """The ORM lookup applied when this matcher wins routing."""
         ...
 
+    @property
+    def priority(self) -> int:  # pragma: no cover - protocol
+        """Routing priority; higher wins when several matchers could match."""
+        ...
+
     def matches(self, value: str) -> bool:  # pragma: no cover - protocol
         """Return ``True`` if ``value`` conforms to this matcher's shape."""
         ...
@@ -63,13 +69,31 @@ class RegexMatcher:
 
     The pattern is compiled once at construction time and reused for every
     request (compiled regexes are cached by :func:`build_matcher`).
+
+    Optional *cheap pre-filters* (``min_len`` / ``max_len`` / ``prefix``) are
+    checked with O(1) string operations before the regex engine runs. They let
+    a matcher reject an obviously-wrong value in nanoseconds, keeping routing
+    fast even with a large number of registered matchers. They are pure
+    optimisation hints: a value that passes them still must satisfy the regex,
+    so they can never change results — only skip work.
     """
 
     name: str
     pattern: Pattern[str]
     lookup: str
+    priority: int = 0
+    min_len: int | None = None
+    max_len: int | None = None
+    prefix: str | None = None
 
     def matches(self, value: str) -> bool:
+        length = len(value)
+        if self.min_len is not None and length < self.min_len:
+            return False
+        if self.max_len is not None and length > self.max_len:
+            return False
+        if self.prefix is not None and not value.startswith(self.prefix):
+            return False
         return self.pattern.fullmatch(value) is not None
 
 
@@ -85,15 +109,17 @@ class CallableMatcher:
     name: str
     predicate: MatcherCallable
     lookup: str
+    priority: int = 0
 
     def matches(self, value: str) -> bool:
+
         try:
             return bool(self.predicate(value))
-        except Exception:  # noqa: BLE001 - a matcher must never break a request
+        except Exception:
             return False
 
 
-def _compile_pattern(name: str, pattern: Union[str, Pattern[str]]) -> Pattern[str]:
+def _compile_pattern(name: str, pattern: str | Pattern[str]) -> Pattern[str]:
     if isinstance(pattern, re.Pattern):
         return pattern
     try:
@@ -104,7 +130,16 @@ def _compile_pattern(name: str, pattern: Union[str, Pattern[str]]) -> Pattern[st
         ) from exc
 
 
-def build_matcher(name: str, spec: MatcherSpec, lookup: str) -> Matcher:
+def build_matcher(
+    name: str,
+    spec: MatcherSpec,
+    lookup: str,
+    *,
+    priority: int = 0,
+    min_len: int | None = None,
+    max_len: int | None = None,
+    prefix: str | None = None,
+) -> Matcher:
     """Construct the appropriate :class:`Matcher` for ``spec``.
 
     ``spec`` may be:
@@ -112,6 +147,10 @@ def build_matcher(name: str, spec: MatcherSpec, lookup: str) -> Matcher:
     * a regex *string* — becomes a :class:`RegexMatcher`,
     * a *compiled* ``re.Pattern`` — becomes a :class:`RegexMatcher`,
     * a *callable* predicate — becomes a :class:`CallableMatcher`.
+
+    ``min_len`` / ``max_len`` / ``prefix`` are optional O(1) pre-filters applied
+    only to :class:`RegexMatcher` (see its docstring). They are ignored for
+    callable matchers, which own their own fast-path logic.
 
     Raises :class:`MatcherError` for unsupported spec types and
     :class:`InvalidRegexError` for un-compilable patterns.
@@ -121,9 +160,16 @@ def build_matcher(name: str, spec: MatcherSpec, lookup: str) -> Matcher:
             name=name,
             pattern=_compile_pattern(name, spec),
             lookup=lookup,
+            priority=priority,
+            min_len=min_len,
+            max_len=max_len,
+            prefix=prefix,
         )
     if callable(spec):
-        return CallableMatcher(name=name, predicate=spec, lookup=lookup)
+        return CallableMatcher(
+            name=name, predicate=spec, lookup=lookup, priority=priority
+        )
+
     raise MatcherError(
         f"Matcher {name!r} must be a regex string, compiled pattern, or callable; "
         f"got {type(spec).__name__!r}."

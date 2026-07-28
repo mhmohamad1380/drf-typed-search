@@ -10,8 +10,6 @@ field lookups. Lookups are split into two families:
 
 from __future__ import annotations
 
-from typing import FrozenSet
-
 __all__ = [
     "EXACT_LOOKUPS",
     "TEXT_LOOKUPS",
@@ -20,9 +18,9 @@ __all__ = [
     "is_valid_lookup",
 ]
 
-EXACT_LOOKUPS: FrozenSet[str] = frozenset({"exact", "iexact"})
+EXACT_LOOKUPS: frozenset[str] = frozenset({"exact", "iexact"})
 
-TEXT_LOOKUPS: FrozenSet[str] = frozenset(
+TEXT_LOOKUPS: frozenset[str] = frozenset(
     {
         "contains",
         "icontains",
@@ -33,7 +31,7 @@ TEXT_LOOKUPS: FrozenSet[str] = frozenset(
     }
 )
 
-VALID_LOOKUPS: FrozenSet[str] = EXACT_LOOKUPS | TEXT_LOOKUPS
+VALID_LOOKUPS: frozenset[str] = EXACT_LOOKUPS | TEXT_LOOKUPS
 
 
 def is_text_lookup(lookup: str) -> bool:

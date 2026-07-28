@@ -25,9 +25,7 @@ class Account(models.Model):
 
     username = models.CharField(max_length=150, db_index=True)
     email = models.CharField(max_length=254, blank=True)
-    user = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name="accounts"
-    )
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="accounts")
 
     class Meta:
         app_label = "tests"

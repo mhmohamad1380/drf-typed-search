@@ -9,22 +9,33 @@ reusable outside a view (Clean Architecture / Low Coupling).
 Routing algorithm
 -----------------
 
-1. **Typed routing** — for each registered matcher, in the order the fields are
-   declared, test whether the *whole* value matches. The first matcher that
-   both (a) matches the value and (b) is bound to a declared field wins. A
-   single, index-friendly predicate is produced.
+1. **Typed routing** — walk the precompiled *typed plan* (matcher-bound fields,
+   ordered by descending :pyattr:`~dynamic_search.matchers.Matcher.priority`
+   then declaration order) and test whether the *whole* value matches. The
+   first matcher that matches wins and produces a single, index-friendly
+   predicate.
 2. **Free-text fallback** — if no matcher wins, run a DRF-style multi-term
    search across every text-searchable field: **AND across terms, OR across
    fields**, honouring quoted phrases.
 3. **No match** — if there are no text-searchable fields, optionally narrow the
    queryset to ``none()`` (configurable) to avoid leaking the whole table.
+
+Performance
+-----------
+
+All per-field work that does *not* depend on the request value — matcher
+resolution, priority ordering, text-lookup resolution, ORM path string
+construction, annotation de-duplication — is performed **once** in
+``__init__`` and reused for every request. The hot path therefore does no
+dictionary lookups, no ``str.join`` calls, and no configuration inspection.
 """
 
 from __future__ import annotations
 
 import shlex
-from dataclasses import dataclass, field as dc_field
-from typing import Dict, List, Optional, Sequence, Tuple
+from collections.abc import Sequence
+from dataclasses import dataclass
+from dataclasses import field as dc_field
 
 from django.db.models import Q, QuerySet
 
@@ -33,7 +44,7 @@ from .lookups import TEXT_LOOKUPS
 from .matchers import Matcher
 from .settings import DynamicSearchSettings
 
-__all__ = ["SearchResult", "SearchEngine"]
+__all__ = ["SearchEngine", "SearchResult"]
 
 
 @dataclass(frozen=True)
@@ -47,17 +58,17 @@ class SearchResult:
     """
 
     queryset: QuerySet
-    matched_fields: List[str] = dc_field(default_factory=list)
+    matched_fields: list[str] = dc_field(default_factory=list)
     strategy: str = "none"
-    matcher: Optional[str] = None
+    matcher: str | None = None
 
     @property
-    def search_field(self) -> Optional[str]:
+    def search_field(self) -> str | None:
         """Comma-joined matched fields, or ``None`` — handy for paginators."""
         return ",".join(self.matched_fields) if self.matched_fields else None
 
 
-def _split_terms(value: str) -> List[str]:
+def _split_terms(value: str) -> list[str]:
     """Split into terms, honouring simple quoting (``"a b"`` -> one term)."""
     value = value.strip()
     try:
@@ -70,20 +81,69 @@ def _split_terms(value: str) -> List[str]:
 class SearchEngine:
     """Stateless engine that applies the routing algorithm.
 
-    An instance binds the compiled fields, matcher registry and settings; it is
-    cheap to build and safe to reuse. It never mutates its inputs.
+    An instance binds the compiled fields, matcher registry and settings and
+    precomputes its routing plans. It is immutable after construction and safe
+    to cache and reuse across requests and threads. It never mutates its inputs.
     """
+
+    __slots__ = (
+        "_annotation_fields",
+        "_settings",
+        "_text_field_names",
+        "_text_plan",
+        "_typed_plan",
+    )
 
     def __init__(
         self,
         fields: Sequence[SearchField],
-        matchers: Dict[str, Matcher],
+        matchers: dict[str, Matcher],
         settings: DynamicSearchSettings,
     ) -> None:
-        self._fields = list(fields)
-        self._matchers = matchers
         self._settings = settings
-        self._text_fields = [f for f in self._fields if f.is_text_searchable]
+
+        # --- typed routing plan (built once) --------------------------------
+        # Resolve every matcher-bound field to its Matcher up front and drop
+        # fields whose matcher is not registered. Order by descending matcher
+        # priority; Python's stable sort preserves declaration order among
+        # equal priorities, giving deterministic "first match wins" semantics.
+        typed_plan: list[tuple[SearchField, Matcher]] = []
+        for sf in fields:
+            if not sf.matcher:
+                continue
+            matcher = matchers.get(sf.matcher)
+            if matcher is None:
+                continue
+            typed_plan.append((sf, matcher))
+        typed_plan.sort(key=lambda pair: -pair[1].priority)
+        self._typed_plan: tuple[tuple[SearchField, Matcher], ...] = tuple(typed_plan)
+
+        # --- free-text plan (built once) ------------------------------------
+        # Precompute the final ORM lookup path for every text-searchable field
+        # so the hot loop only does dict construction, never str.join.
+        text_plan: list[tuple[str, SearchField]] = []
+        text_names: list[str] = []
+        for sf in fields:
+            if not sf.is_text_searchable:
+                continue
+            lookup = (
+                sf.lookup
+                if (sf.lookup is not None and sf.lookup in TEXT_LOOKUPS)
+                else settings.default_text_lookup
+            )
+            text_plan.append((sf.orm_path(lookup), sf))
+            text_names.append(sf.field)
+        self._text_plan: tuple[tuple[str, SearchField], ...] = tuple(text_plan)
+        self._text_field_names: tuple[str, ...] = tuple(text_names)
+
+        # De-duplicated annotation callables for the fallback (apply each once).
+        annotation_fields: list[SearchField] = []
+        seen_ann: set[str] = set()
+        for _key, sf in text_plan:
+            if sf.annotate is not None and sf.field not in seen_ann:
+                annotation_fields.append(sf)
+                seen_ann.add(sf.field)
+        self._annotation_fields: tuple[SearchField, ...] = tuple(annotation_fields)
 
     # --- public API ---------------------------------------------------------
 
@@ -96,7 +156,7 @@ class SearchEngine:
         if typed is not None:
             return typed
 
-        if self._text_fields:
+        if self._text_plan:
             return self._free_text(queryset, value)
 
         if self._settings.empty_on_no_match:
@@ -105,45 +165,31 @@ class SearchEngine:
 
     # --- typed routing ------------------------------------------------------
 
-    def _route_typed(self, queryset: QuerySet, value: str) -> Optional[SearchResult]:
-        match = self._find_matching_field(value)
-        if match is None:
-            return None
-        search_field, matcher = match
+    def _route_typed(self, queryset: QuerySet, value: str) -> SearchResult | None:
+        for search_field, matcher in self._typed_plan:
+            if not matcher.matches(value):
+                continue
 
-        if search_field.queryset_builder is not None:
-            qs = search_field.queryset_builder(queryset, value)
+            if search_field.queryset_builder is not None:
+                qs = search_field.queryset_builder(queryset, value)
+                return SearchResult(
+                    queryset=qs,
+                    matched_fields=[search_field.field],
+                    strategy="typed",
+                    matcher=matcher.name,
+                )
+
+            if search_field.annotate is not None:
+                queryset = search_field.annotate(queryset, search_field.join)
+
+            lookup = search_field.lookup or matcher.lookup
+            queryset = queryset.filter(search_field.build_q(value, lookup))
             return SearchResult(
-                queryset=qs,
+                queryset=queryset,
                 matched_fields=[search_field.field],
                 strategy="typed",
                 matcher=matcher.name,
             )
-
-        if search_field.annotate is not None:
-            queryset = search_field.annotate(queryset, search_field.join)
-
-        lookup = search_field.lookup or matcher.lookup
-        queryset = queryset.filter(search_field.build_q(value, lookup))
-        return SearchResult(
-            queryset=queryset,
-            matched_fields=[search_field.field],
-            strategy="typed",
-            matcher=matcher.name,
-        )
-
-    def _find_matching_field(
-        self, value: str
-    ) -> Optional[Tuple[SearchField, Matcher]]:
-        """First declared field whose bound matcher matches the whole value."""
-        for search_field in self._fields:
-            if not search_field.matcher:
-                continue
-            matcher = self._matchers.get(search_field.matcher)
-            if matcher is None:
-                continue
-            if matcher.matches(value):
-                return search_field, matcher
         return None
 
     # --- free-text fallback -------------------------------------------------
@@ -153,36 +199,19 @@ class SearchEngine:
         if not terms:
             return SearchResult(queryset=queryset, strategy="none")
 
-        queryset = self._apply_annotations(queryset)
+        # Apply each required annotation exactly once, before filtering.
+        for sf in self._annotation_fields:
+            queryset = sf.annotate(queryset, sf.join)  # type: ignore[misc]
 
-        # Fields backed by a custom queryset_builder cannot join a Q-OR chain;
-        # they are excluded from the free-text OR (they only serve typed routing).
-        q_fields = [f for f in self._text_fields if f.queryset_builder is None]
-        if not q_fields:
-            return SearchResult(queryset=queryset, strategy="none")
-
+        text_plan = self._text_plan
         for term in terms:  # AND across terms
             term_q = Q()
-            for sf in q_fields:  # OR across fields
-                lookup = self._text_lookup_for(sf)
-                term_q |= sf.build_q(term, lookup)
+            for key, _sf in text_plan:  # OR across fields (precompiled paths)
+                term_q |= Q(**{key: term})
             queryset = queryset.filter(term_q)
 
         return SearchResult(
             queryset=queryset,
-            matched_fields=[f.field for f in q_fields],
+            matched_fields=list(self._text_field_names),
             strategy="text",
         )
-
-    def _text_lookup_for(self, sf: SearchField) -> str:
-        if sf.lookup is not None and sf.lookup in TEXT_LOOKUPS:
-            return sf.lookup
-        return self._settings.default_text_lookup
-
-    def _apply_annotations(self, queryset: QuerySet) -> QuerySet:
-        seen: set[str] = set()
-        for sf in self._text_fields:
-            if sf.annotate is not None and sf.field not in seen:
-                queryset = sf.annotate(queryset, sf.join)
-                seen.add(sf.field)
-        return queryset

@@ -42,12 +42,12 @@ Config keys
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Mapping, Optional, Sequence, cast
+from typing import Any, Callable, Optional, cast
 
 from django.core.exceptions import FieldDoesNotExist
 from django.db.models import Model, Q, QuerySet
-
 
 from .exceptions import (
     InvalidConfigurationError,
@@ -84,16 +84,16 @@ class SearchField:
     """A compiled, validated searchable field."""
 
     field: str
-    join: Optional[str] = None
-    lookup: Optional[str] = None
-    matcher: Optional[str] = None
-    annotate: Optional[AnnotateFunc] = None
-    queryset_builder: Optional[QuerysetBuilder] = None
+    join: str | None = None
+    lookup: str | None = None
+    matcher: str | None = None
+    annotate: AnnotateFunc | None = None
+    queryset_builder: QuerysetBuilder | None = None
     text: bool = False
 
     # --- lookup construction ------------------------------------------------
 
-    def orm_path(self, lookup: Optional[str] = None) -> str:
+    def orm_path(self, lookup: str | None = None) -> str:
         """Build the ORM lookup path, e.g. ``user__national_code__exact``.
 
         Annotation aliases are *not* prefixed with ``join`` — the relation is
@@ -131,7 +131,7 @@ def _validate_keys(index: int, entry: Mapping[str, Any]) -> None:
 def _resolve_model_field(model: type[Model], path: str, *, index: int) -> None:
     """Walk a ``a__b__c`` relation path and validate each hop exists."""
     parts = path.split("__")
-    current: Optional[type[Model]] = model
+    current: type[Model] | None = model
     for i, part in enumerate(parts):
         if current is None:
             raise InvalidJoinError(
@@ -159,8 +159,10 @@ def compile_entry(
     """Validate and compile a single config dict into a :class:`SearchField`."""
     if not isinstance(entry, Mapping):
         raise InvalidConfigurationError(
-            f"search_fields_config[{index}] must be a dict; got {type(entry).__name__!r}."
+            f"search_fields_config[{index}] must be a dict; "
+            f"got {type(entry).__name__!r}."
         )
+
     _validate_keys(index, entry)
 
     field = entry.get("field")
@@ -172,7 +174,8 @@ def compile_entry(
     join = entry.get("join")
     if join is not None and (not isinstance(join, str) or not join):
         raise InvalidJoinError(
-            f"search_fields_config[{index}] 'join' must be a non-empty string or omitted."
+            f"search_fields_config[{index}] 'join' must be a "
+            f"non-empty string or omitted."
         )
 
     lookup = entry.get("lookup")
@@ -196,7 +199,7 @@ def compile_entry(
 
     matcher_spec = entry.get("matcher", _UNSET)
     if matcher_spec is _UNSET:
-        matcher_name: Optional[str] = field
+        matcher_name: str | None = field
     else:
         if matcher_spec is not None and not isinstance(matcher_spec, str):
             raise InvalidConfigurationError(
@@ -215,15 +218,15 @@ def compile_entry(
         join=join,
         lookup=lookup,
         matcher=matcher_name,
-        annotate=cast("Optional[AnnotateFunc]", annotate),
-        queryset_builder=cast("Optional[QuerysetBuilder]", queryset_builder),
+        annotate=cast("AnnotateFunc | None", annotate),
+        queryset_builder=cast("QuerysetBuilder | None", queryset_builder),
         text=bool(entry.get("text", False)),
     )
 
 
 def compile_search_fields(
     config: Sequence[Mapping[str, Any]], model: type[Model]
-) -> List[SearchField]:
+) -> list[SearchField]:
     """Compile and validate a view's whole ``search_fields_config``."""
     if not isinstance(config, (list, tuple)):
         raise InvalidConfigurationError(
@@ -233,7 +236,7 @@ def compile_search_fields(
     compiled = [compile_entry(i, entry, model) for i, entry in enumerate(config)]
 
     # Duplicate field detection (same field+join declared twice is a mistake).
-    seen: Dict[str, int] = {}
+    seen: dict[str, int] = {}
     for i, sf in enumerate(compiled):
         key = sf.orm_path()
         if key in seen:

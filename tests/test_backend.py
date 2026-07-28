@@ -74,11 +74,15 @@ def test_backend_missing_config_raises(accounts):
 
 
 def test_backend_caches_compiled_fields(accounts):
-    DynamicSearchBackend._compiled_cache.clear()
+    DynamicSearchBackend._engine_cache.clear()
     _filter("1000000001")
-    first = dict(DynamicSearchBackend._compiled_cache)
+    first = dict(DynamicSearchBackend._engine_cache)
+    assert len(first) == 1
     _filter("1000000002")
-    assert DynamicSearchBackend._compiled_cache.keys() == first.keys()
+    # Same key reused: no new engine built, and the cached engine is identical.
+    assert DynamicSearchBackend._engine_cache.keys() == first.keys()
+    (engine,) = set(DynamicSearchBackend._engine_cache.values())
+    assert engine is next(iter(first.values()))
 
 
 def test_backend_schema_parameters():

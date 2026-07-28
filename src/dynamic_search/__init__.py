@@ -30,34 +30,35 @@ from .lookups import EXACT_LOOKUPS, TEXT_LOOKUPS, VALID_LOOKUPS
 from .matchers import CallableMatcher, Matcher, RegexMatcher, build_matcher
 from .settings import get_matcher_registry, get_settings
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
+
 
 default_app_config = "dynamic_search.apps.DynamicSearchConfig"
 
 __all__ = [
-    "__version__",
-    "DynamicSearchBackend",
-    "SearchEngine",
-    "SearchResult",
-    "SearchField",
-    "compile_search_fields",
-    "concat_annotation",
-    "Matcher",
-    "RegexMatcher",
-    "CallableMatcher",
-    "build_matcher",
-    "get_settings",
-    "get_matcher_registry",
     "EXACT_LOOKUPS",
     "TEXT_LOOKUPS",
     "VALID_LOOKUPS",
-    "DynamicSearchError",
+    "CallableMatcher",
     "ConfigurationError",
-    "InvalidRegexError",
     "DuplicateMatcherError",
-    "InvalidLookupError",
+    "DynamicSearchBackend",
+    "DynamicSearchError",
     "InvalidConfigurationError",
-    "MissingFieldError",
     "InvalidJoinError",
+    "InvalidLookupError",
+    "InvalidRegexError",
+    "Matcher",
     "MatcherError",
+    "MissingFieldError",
+    "RegexMatcher",
+    "SearchEngine",
+    "SearchField",
+    "SearchResult",
+    "__version__",
+    "build_matcher",
+    "compile_search_fields",
+    "concat_annotation",
+    "get_matcher_registry",
+    "get_settings",
 ]

@@ -13,7 +13,6 @@ from dynamic_search.exceptions import (
 )
 from dynamic_search.helpers import concat_annotation
 
-
 pytestmark = pytest.mark.django_db
 
 
@@ -66,9 +65,7 @@ def test_invalid_join_raises():
 
 def test_invalid_lookup_raises():
     with pytest.raises(InvalidLookupError):
-        compile_search_fields(
-            [{"field": "username", "lookup": "regex"}], _model()
-        )
+        compile_search_fields([{"field": "username", "lookup": "regex"}], _model())
 
 
 def test_unknown_key_raises():
@@ -88,9 +85,7 @@ def test_config_not_list_raises():
 
 def test_duplicate_field_raises():
     with pytest.raises(InvalidConfigurationError):
-        compile_search_fields(
-            [{"field": "username"}, {"field": "username"}], _model()
-        )
+        compile_search_fields([{"field": "username"}, {"field": "username"}], _model())
 
 
 def test_bad_join_type_raises():
@@ -100,16 +95,12 @@ def test_bad_join_type_raises():
 
 def test_bad_matcher_type_raises():
     with pytest.raises(InvalidConfigurationError):
-        compile_search_fields(
-            [{"field": "username", "matcher": 5}], _model()
-        )
+        compile_search_fields([{"field": "username", "matcher": 5}], _model())
 
 
 def test_bad_annotate_raises():
     with pytest.raises(InvalidConfigurationError):
-        compile_search_fields(
-            [{"field": "full_name", "annotate": "nope"}], _model()
-        )
+        compile_search_fields([{"field": "full_name", "annotate": "nope"}], _model())
 
 
 def test_annotation_field_skips_model_validation():
@@ -142,3 +133,29 @@ def test_queryset_builder_field_not_text_searchable():
         [{"field": "username", "queryset_builder": lambda qs, v: qs}], _model()
     )
     assert fields[0].is_text_searchable is False
+
+
+def test_bad_queryset_builder_type_raises():
+    with pytest.raises(InvalidConfigurationError):
+        compile_search_fields(
+            [{"field": "username", "queryset_builder": "nope"}], _model()
+        )
+
+
+def test_text_flag_forces_text_searchable_with_exact_lookup():
+    fields = compile_search_fields(
+        [{"field": "username", "lookup": "exact", "text": True, "matcher": None}],
+        _model(),
+    )
+    assert fields[0].is_text_searchable is True
+
+
+def test_deep_join_through_non_relation_raises():
+    # ``username`` is a CharField, so walking through it as a relation must fail.
+    with pytest.raises(InvalidJoinError):
+        compile_search_fields([{"field": "x", "join": "username__deeper"}], _model())
+
+
+def test_empty_join_string_raises():
+    with pytest.raises(InvalidJoinError):
+        compile_search_fields([{"field": "username", "join": ""}], _model())

@@ -10,15 +10,15 @@ from __future__ import annotations
 from django.core.exceptions import ImproperlyConfigured
 
 __all__ = [
-    "DynamicSearchError",
     "ConfigurationError",
-    "InvalidRegexError",
     "DuplicateMatcherError",
-    "InvalidLookupError",
+    "DynamicSearchError",
     "InvalidConfigurationError",
-    "MissingFieldError",
     "InvalidJoinError",
+    "InvalidLookupError",
+    "InvalidRegexError",
     "MatcherError",
+    "MissingFieldError",
 ]
 
 

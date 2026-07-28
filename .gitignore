@@ -30,3 +30,6 @@ apitoken
 *.token
 .pypirc
 
+benchmarks
+tests
+
