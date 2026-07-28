@@ -6,7 +6,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## [1.1.0] - 2024-06-01
+## [1.1.0] - 2026-07-28
 
 ### Added
 - **Matcher priority.** Matchers may declare an integer `priority` in
@@ -47,7 +47,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - The private backend cache attribute was renamed
   `_compiled_cache` → `_engine_cache` (internal only).
 
-## [1.0.0] - 2024-01-01
+## [1.0.0] - 2026-07-28
 
 
 ### Added
