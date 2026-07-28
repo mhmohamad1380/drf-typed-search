@@ -1,0 +1,139 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "drf-typed-search"
+version = "1.0.0"
+description = "A type-aware, matcher-routed search backend for Django REST Framework that intelligently routes queries to the correct field."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "dynamic_search contributors" }]
+keywords = [
+    "django",
+    "djangorestframework",
+    "drf",
+    "search",
+    "filter",
+    "backend",
+    "typed",
+    "router",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "Django>=3.2",
+    "djangorestframework>=3.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-django>=4.5",
+    "pytest-cov>=4.0",
+    "ruff>=0.1",
+    "black>=23.0",
+    "mypy>=1.0",
+    "django-stubs>=4.2",
+    "djangorestframework-stubs>=3.14",
+    "build>=1.0",
+    "twine>=4.0",
+]
+postgres = ["psycopg2-binary>=2.9"]
+
+[project.urls]
+Homepage = "https://github.com/mhmohamad1380/drf-typed-search"
+Documentation = "https://github.com/mhmohamad1380/drf-typed-search#readme"
+Repository = "https://github.com/mhmohamad1380/drf-typed-search"
+Changelog = "https://github.com/mhmohamad1380/drf-typed-search/blob/main/CHANGELOG.md"
+Issues = "https://github.com/mhmohamad1380/drf-typed-search/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dynamic_search"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/README.md",
+    "/CHANGELOG.md",
+    "/CONTRIBUTING.md",
+    "/LICENSE",
+    "/docs",
+    "/examples",
+]
+
+# --- Tooling -----------------------------------------------------------------
+
+[tool.black]
+line-length = 88
+target-version = ["py39", "py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "C4", "SIM", "RUF"]
+ignore = ["B904"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["dynamic_search"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_unused_ignores = false
+ignore_missing_imports = true
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
+mypy_path = "src"
+files = ["src/dynamic_search"]
+
+[tool.django-stubs]
+django_settings_module = "tests.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+python_files = ["test_*.py"]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+markers = [
+    "benchmark: performance / regression checks",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["dynamic_search"]
+omit = ["*/tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "\\.\\.\\.",
+]
