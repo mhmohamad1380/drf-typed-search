@@ -1,0 +1,2457 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A type-aware, matcher-routed search backend for Django REST Framework.">
+      
+      
+        <meta name="author" content="dynamic_search contributors">
+      
+      
+        <link rel="canonical" href="https://mhmohamad1380.github.io/drf-typed-search/methods/">
+      
+      
+        <link rel="prev" href="../comparison/">
+      
+      
+        <link rel="next" href="../api/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Methods & customization - drf-typed-search</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#methods-reference-customization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="drf-typed-search" class="md-header__button md-logo" aria-label="drf-typed-search" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            drf-typed-search
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Methods & customization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mhmohamad1380/drf-typed-search" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mhmohamad1380/drf-typed-search
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="drf-typed-search" class="md-nav__button md-logo" aria-label="drf-typed-search" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    drf-typed-search
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mhmohamad1380/drf-typed-search" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mhmohamad1380/drf-typed-search
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../matchers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matchers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elasticsearch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elasticsearch backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annotations & custom SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Comparison with DRF SearchFilter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods & customization
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods & customization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.backend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.backend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dynamicsearchbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DynamicSearchBackend
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.config
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#searchfield-frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SearchField (frozen dataclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile_search_fieldsconfig-model-listsearchfield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compile_search_fields(config, model) -&gt; list[SearchField]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile_entryindex-entry-model-searchfield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compile_entry(index, entry, model) -&gt; SearchField
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchmatchers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.matchers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.matchers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#matcher-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Matcher (protocol)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regexmatcher-frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RegexMatcher (frozen dataclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callablematcher-frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CallableMatcher (frozen dataclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build_matchername-spec-lookup-priority0-min_lennone-max_lennone-prefixnone-matcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build_matcher(name, spec, lookup, *, priority=0, min_len=None, max_len=None, prefix=None) -&gt; Matcher
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchengine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.engine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.engine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#searchengine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SearchEngine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#searchresult-frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SearchResult (frozen dataclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textsearchprovider-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TextSearchProvider (protocol)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchhelpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.helpers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concat_annotationalias-fields-separator-joinnone-callable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        concat_annotation(alias, fields, *, separator=" ", join=None) -&gt; Callable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchlookups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.lookups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchsettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_settings-dynamicsearchsettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_settings() -&gt; DynamicSearchSettings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_matcher_registry-dictstr-matcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_matcher_registry() -&gt; dict[str, Matcher]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset_cache_-none" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reset_cache(**_) -&gt; None
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchapps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.apps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.apps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dynamicsearchconfigreadyself" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DynamicSearchConfig.ready(self)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_dynamic_search_settingsapp_configs-kwargs-listerror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check_dynamic_search_settings(app_configs, **kwargs) -&gt; list[Error]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchelastic-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.elastic (optional)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.elastic (optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elasticclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.client
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticprovider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.provider
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticquery-pure-no-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.query (pure, no I/O)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticindexing-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.indexing (I/O)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticsignals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.signals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#management-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Management command
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Management command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#managepy-reindex_search-labels-recreate-chunk-size-n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        manage.py reindex_search [labels...] [--recreate] [--chunk-size N]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BENCHMARKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../release-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.backend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.backend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dynamicsearchbackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DynamicSearchBackend
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.config
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#searchfield-frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SearchField (frozen dataclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile_search_fieldsconfig-model-listsearchfield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compile_search_fields(config, model) -&gt; list[SearchField]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile_entryindex-entry-model-searchfield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compile_entry(index, entry, model) -&gt; SearchField
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchmatchers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.matchers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.matchers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#matcher-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Matcher (protocol)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regexmatcher-frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RegexMatcher (frozen dataclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callablematcher-frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CallableMatcher (frozen dataclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build_matchername-spec-lookup-priority0-min_lennone-max_lennone-prefixnone-matcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build_matcher(name, spec, lookup, *, priority=0, min_len=None, max_len=None, prefix=None) -&gt; Matcher
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchengine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.engine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.engine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#searchengine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SearchEngine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#searchresult-frozen-dataclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SearchResult (frozen dataclass)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#textsearchprovider-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TextSearchProvider (protocol)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchhelpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.helpers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concat_annotationalias-fields-separator-joinnone-callable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        concat_annotation(alias, fields, *, separator=" ", join=None) -&gt; Callable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchlookups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.lookups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchsettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_settings-dynamicsearchsettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_settings() -&gt; DynamicSearchSettings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_matcher_registry-dictstr-matcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_matcher_registry() -&gt; dict[str, Matcher]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset_cache_-none" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reset_cache(**_) -&gt; None
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchapps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.apps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.apps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dynamicsearchconfigreadyself" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DynamicSearchConfig.ready(self)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_dynamic_search_settingsapp_configs-kwargs-listerror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check_dynamic_search_settings(app_configs, **kwargs) -&gt; list[Error]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic_searchelastic-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dynamic_search.elastic (optional)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dynamic_search.elastic (optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elasticclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.client
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticprovider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.provider
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticquery-pure-no-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.query (pure, no I/O)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticindexing-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.indexing (I/O)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elasticsignals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        elastic.signals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#management-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Management command
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Management command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#managepy-reindex_search-labels-recreate-chunk-size-n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        manage.py reindex_search [labels...] [--recreate] [--chunk-size N]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="methods-reference-customization">Methods reference &amp; customization<a class="headerlink" href="#methods-reference-customization" title="Permanent link">&para;</a></h1>
+<p>This page documents every public class, method and function in
+<code>dynamic_search</code>, and — for each extension point — how to override it with your
+own implementation. The library is designed so you can replace almost any piece
+without editing package source (Open/Closed Principle).</p>
+<p>The modules are listed roughly in request order: backend → config → matchers →
+engine → free-text providers → Elasticsearch internals.</p>
+<hr />
+<h2 id="dynamic_searchbackend"><code>dynamic_search.backend</code><a class="headerlink" href="#dynamic_searchbackend" title="Permanent link">&para;</a></h2>
+<h3 id="dynamicsearchbackend"><code>DynamicSearchBackend</code><a class="headerlink" href="#dynamicsearchbackend" title="Permanent link">&para;</a></h3>
+<p>The DRF filter backend — the only class that touches Django REST Framework. Add
+it to a view's <code>filter_backends</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Signature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config_attr</code></td>
+<td><code>= "search_fields_config"</code></td>
+<td>Name of the view attribute holding the search config.</td>
+</tr>
+<tr>
+<td><code>filter_queryset</code></td>
+<td><code>(self, request, queryset, view) -&gt; QuerySet</code></td>
+<td>DRF entrypoint. Reads the search param, builds/caches the engine, runs it, writes <code>view.search_field</code>, and applies <code>distinct()</code> only when a filter ran.</td>
+</tr>
+<tr>
+<td><code>get_schema_operation_parameters</code></td>
+<td><code>(self, view) -&gt; list[dict]</code></td>
+<td>Advertises the <code>?search=</code> query param to the browsable API / OpenAPI schema.</td>
+</tr>
+<tr>
+<td><code>_get_raw_config</code></td>
+<td><code>(self, view) -&gt; list[dict]</code></td>
+<td>Reads <code>view.search_fields_config</code>; raises if absent.</td>
+</tr>
+<tr>
+<td><code>_get_engine</code></td>
+<td><code>(self, view, raw_config, model, settings) -&gt; SearchEngine</code></td>
+<td>Builds and caches a <code>SearchEngine</code> per <code>(view class, config id, settings id)</code>.</td>
+</tr>
+<tr>
+<td><code>_build_text_provider</code></td>
+<td><code>(self, view, model, settings) -&gt; TextSearchProvider \| None</code></td>
+<td>Decides whether the free-text branch uses Elasticsearch for this view/model.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Overriding</strong></p>
+<p>Change the config attribute name:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyBackend</span><span class="p">(</span><span class="n">DynamicSearchBackend</span><span class="p">):</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">config_attr</span> <span class="o">=</span> <span class="s2">&quot;search_config&quot;</span>
+</span></code></pre></div>
+<p>Force a view to use (or skip) Elasticsearch regardless of the global setting —
+no subclass needed, just set an attribute on the view:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ArticleViewSet</span><span class="p">(</span><span class="n">ModelViewSet</span><span class="p">):</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">filter_backends</span> <span class="o">=</span> <span class="p">[</span><span class="n">DynamicSearchBackend</span><span class="p">]</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">search_fields_config</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">search_text_backend</span> <span class="o">=</span> <span class="s2">&quot;elasticsearch&quot;</span>   <span class="c1"># or &quot;database&quot; to opt out</span>
+</span></code></pre></div>
+<p>Fully swap how the free-text provider is chosen (e.g. plug a Solr/Meilisearch
+provider):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyBackend</span><span class="p">(</span><span class="n">DynamicSearchBackend</span><span class="p">):</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_build_text_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="s2">&quot;use_solr&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>            <span class="k">return</span> <span class="n">SolrTextProvider</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>      <span class="c1"># your TextSearchProvider</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_build_text_provider</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Change post-filter behaviour (e.g. never call <code>distinct()</code>):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyBackend</span><span class="p">(</span><span class="n">DynamicSearchBackend</span><span class="p">):</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">filter_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        <span class="n">result_qs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">filter_queryset</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        <span class="k">return</span> <span class="n">result_qs</span>  <span class="c1"># customize as needed</span>
+</span></code></pre></div>
+<hr />
+<h2 id="dynamic_searchconfig"><code>dynamic_search.config</code><a class="headerlink" href="#dynamic_searchconfig" title="Permanent link">&para;</a></h2>
+<h3 id="searchfield-frozen-dataclass"><code>SearchField</code> (frozen dataclass)<a class="headerlink" href="#searchfield-frozen-dataclass" title="Permanent link">&para;</a></h3>
+<p>A compiled, validated searchable field. You rarely build these by hand — they
+are produced by <code>compile_search_fields</code> — but the methods are useful when
+writing a custom <code>queryset_builder</code> or provider.</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Signature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>orm_path</code></td>
+<td><code>(self, lookup=None) -&gt; str</code></td>
+<td>Builds the ORM path, e.g. <code>user__national_code__exact</code>. Annotation aliases are not join-prefixed.</td>
+</tr>
+<tr>
+<td><code>build_q</code></td>
+<td><code>(self, value, lookup) -&gt; Q</code></td>
+<td>Builds a <code>Q(**{path: value})</code> for the field.</td>
+</tr>
+<tr>
+<td><code>is_text_searchable</code></td>
+<td><em>property</em> <code>-&gt; bool</code></td>
+<td>Whether the field joins the free-text fallback.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="compile_search_fieldsconfig-model-listsearchfield"><code>compile_search_fields(config, model) -&gt; list[SearchField]</code><a class="headerlink" href="#compile_search_fieldsconfig-model-listsearchfield" title="Permanent link">&para;</a></h3>
+<p>Compiles and validates a whole <code>search_fields_config</code>, detecting duplicate field
+paths. Call it directly if you use the engine outside a DRF view.</p>
+<h3 id="compile_entryindex-entry-model-searchfield"><code>compile_entry(index, entry, model) -&gt; SearchField</code><a class="headerlink" href="#compile_entryindex-entry-model-searchfield" title="Permanent link">&para;</a></h3>
+<p>Compiles and validates one config dict. Override the whole compilation step by
+subclassing the backend and calling your own compiler in <code>_get_engine</code>.</p>
+<p><strong>Config keys</strong> (each dict in <code>search_fields_config</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>field</code> (required)</td>
+<td><code>str</code></td>
+<td>Model field / related field / annotation alias.</td>
+</tr>
+<tr>
+<td><code>join</code></td>
+<td><code>str</code></td>
+<td>Relation prefix, e.g. <code>"user"</code> or <code>"loan__user"</code>.</td>
+</tr>
+<tr>
+<td><code>lookup</code></td>
+<td><code>str</code></td>
+<td>Override lookup for typed win or free-text participation.</td>
+</tr>
+<tr>
+<td><code>matcher</code></td>
+<td><code>str \| None</code></td>
+<td>Bind to a named matcher. Defaults to <code>field</code>; <code>None</code> disables typed routing.</td>
+</tr>
+<tr>
+<td><code>annotate</code></td>
+<td><code>(qs, prefix) -&gt; qs</code></td>
+<td>Applied before filtering (computed fields).</td>
+</tr>
+<tr>
+<td><code>queryset_builder</code></td>
+<td><code>(qs, value) -&gt; qs</code></td>
+<td>Fully owns filtering for this field (custom SQL/trigram/full-text).</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td><code>bool</code></td>
+<td>Force the field into the free-text fallback.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Customizing via callables</strong> — the two per-field hooks are the primary
+no-subclass extension points:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.postgres.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchVector</span><span class="p">,</span> <span class="n">SearchQuery</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">full_text_builder</span><span class="p">(</span><span class="n">queryset</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="n">_v</span><span class="o">=</span><span class="n">SearchVector</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">_v</span><span class="o">=</span><span class="n">SearchQuery</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">search_fields_config</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="p">{</span><span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;queryset_builder&quot;</span><span class="p">:</span> <span class="n">full_text_builder</span><span class="p">,</span> <span class="s2">&quot;matcher&quot;</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">},</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">]</span>
+</span></code></pre></div>
+<hr />
+<h2 id="dynamic_searchmatchers"><code>dynamic_search.matchers</code><a class="headerlink" href="#dynamic_searchmatchers" title="Permanent link">&para;</a></h2>
+<h3 id="matcher-protocol"><code>Matcher</code> (protocol)<a class="headerlink" href="#matcher-protocol" title="Permanent link">&para;</a></h3>
+<p>The strategy that decides whether a value "looks like" a shape. Any object with
+<code>name</code>, <code>lookup</code>, <code>priority</code> properties and a <code>matches(value) -&gt; bool</code> method
+satisfies it.</p>
+<h3 id="regexmatcher-frozen-dataclass"><code>RegexMatcher</code> (frozen dataclass)<a class="headerlink" href="#regexmatcher-frozen-dataclass" title="Permanent link">&para;</a></h3>
+<p>Matches a fully-anchored compiled regex, with optional O(1) pre-filters.</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Signature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>matches</code></td>
+<td><code>(self, value) -&gt; bool</code></td>
+<td>Applies <code>min_len</code>/<code>max_len</code>/<code>prefix</code> cheap checks, then <code>pattern.fullmatch</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="callablematcher-frozen-dataclass"><code>CallableMatcher</code> (frozen dataclass)<a class="headerlink" href="#callablematcher-frozen-dataclass" title="Permanent link">&para;</a></h3>
+<p>Delegates to a user predicate; exceptions are swallowed as a non-match.</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Signature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>matches</code></td>
+<td><code>(self, value) -&gt; bool</code></td>
+<td>Returns <code>bool(predicate(value))</code>, <code>False</code> on error.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="build_matchername-spec-lookup-priority0-min_lennone-max_lennone-prefixnone-matcher"><code>build_matcher(name, spec, lookup, *, priority=0, min_len=None, max_len=None, prefix=None) -&gt; Matcher</code><a class="headerlink" href="#build_matchername-spec-lookup-priority0-min_lennone-max_lennone-prefixnone-matcher" title="Permanent link">&para;</a></h3>
+<p>Factory that returns a <code>RegexMatcher</code> for a regex string/compiled pattern, or a
+<code>CallableMatcher</code> for a callable.</p>
+<p><strong>Overriding — write your own matcher strategy</strong></p>
+<p>Because <code>Matcher</code> is a protocol, you can register any object that implements it.
+The simplest route is a callable in settings:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">DYNAMIC_SEARCH</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="s2">&quot;MATCHERS&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>        <span class="c1"># regex string</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        <span class="s2">&quot;national_code&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^\d</span><span class="si">{10}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="s2">&quot;lookup&quot;</span><span class="p">:</span> <span class="s2">&quot;exact&quot;</span><span class="p">},</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="c1"># callable predicate</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="s2">&quot;even_id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>                     <span class="s2">&quot;lookup&quot;</span><span class="p">:</span> <span class="s2">&quot;exact&quot;</span><span class="p">},</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="p">}</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>For a fully custom strategy class, implement the protocol and inject the built
+registry when constructing the engine yourself:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">LuhnMatcher</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;card&quot;</span><span class="p">;</span> <span class="n">lookup</span> <span class="o">=</span> <span class="s2">&quot;exact&quot;</span><span class="p">;</span> <span class="n">priority</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="k">return</span> <span class="n">_passes_luhn</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">engine</span> <span class="o">=</span> <span class="n">SearchEngine</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;card&quot;</span><span class="p">:</span> <span class="n">LuhnMatcher</span><span class="p">()},</span> <span class="n">settings</span><span class="p">)</span>
+</span></code></pre></div>
+<p><code>priority</code> controls routing order — higher wins when several matchers could
+match the same value.</p>
+<hr />
+<h2 id="dynamic_searchengine"><code>dynamic_search.engine</code><a class="headerlink" href="#dynamic_searchengine" title="Permanent link">&para;</a></h2>
+<h3 id="searchengine"><code>SearchEngine</code><a class="headerlink" href="#searchengine" title="Permanent link">&para;</a></h3>
+<p>Pure, framework-agnostic router. Immutable after construction and safe to cache.</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Signature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__init__</code></td>
+<td><code>(self, fields, matchers, settings, text_provider=None)</code></td>
+<td>Precomputes the typed and free-text plans once. Pass a <code>text_provider</code> to own the free-text branch.</td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td><code>(self, queryset, value) -&gt; SearchResult</code></td>
+<td>Runs the routing algorithm: typed → free-text (provider or ORM) → none/empty.</td>
+</tr>
+<tr>
+<td><code>_route_typed</code></td>
+<td><code>(self, queryset, value) -&gt; SearchResult \| None</code></td>
+<td>Walks the priority-ordered typed plan; first matcher that matches wins.</td>
+</tr>
+<tr>
+<td><code>_free_text</code></td>
+<td><code>(self, queryset, value) -&gt; SearchResult</code></td>
+<td>ORM multi-term search: AND across terms, OR across fields.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="searchresult-frozen-dataclass"><code>SearchResult</code> (frozen dataclass)<a class="headerlink" href="#searchresult-frozen-dataclass" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Signature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>queryset</code> / <code>matched_fields</code> / <code>strategy</code> / <code>matcher</code></td>
+<td>fields</td>
+<td>The outcome; <code>strategy</code> is <code>"typed"</code>, <code>"text"</code>, <code>"none"</code>, or <code>"empty"</code>.</td>
+</tr>
+<tr>
+<td><code>search_field</code></td>
+<td><em>property</em> <code>-&gt; str \| None</code></td>
+<td>Comma-joined matched field names (handy for paginators).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="textsearchprovider-protocol"><code>TextSearchProvider</code> (protocol)<a class="headerlink" href="#textsearchprovider-protocol" title="Permanent link">&para;</a></h3>
+<p>The pluggable free-text backend contract — implement one method:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">:</span> <span class="n">QuerySet</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuerySet</span><span class="p">:</span> <span class="o">...</span>
+</span></code></pre></div>
+<p><strong>Overriding — custom free-text backend</strong></p>
+<p>Any object satisfying <code>TextSearchProvider</code> can replace the ORM free-text branch.
+Typed routing is never affected. Return a real queryset so DRF pagination,
+serializers and permissions keep working:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">SolrTextProvider</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>        <span class="n">ids</span> <span class="o">=</span> <span class="n">solr_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>          <span class="c1"># your search call</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>        <span class="k">return</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk__in</span><span class="o">=</span><span class="n">ids</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Inject it either through a custom <code>DynamicSearchBackend._build_text_provider</code>
+(see above) or directly when constructing a <code>SearchEngine</code>.</p>
+<hr />
+<h2 id="dynamic_searchhelpers"><code>dynamic_search.helpers</code><a class="headerlink" href="#dynamic_searchhelpers" title="Permanent link">&para;</a></h2>
+<h3 id="concat_annotationalias-fields-separator-joinnone-callable"><code>concat_annotation(alias, fields, *, separator=" ", join=None) -&gt; Callable</code><a class="headerlink" href="#concat_annotationalias-fields-separator-joinnone-callable" title="Permanent link">&para;</a></h3>
+<p>Returns an <code>annotate</code> callable that <code>Concat</code>s several fields into <code>alias</code> — the
+common "full name" case. Use it as a config <code>annotate</code> value. Write your own
+<code>(queryset, prefix) -&gt; queryset</code> callable for anything more complex.</p>
+<hr />
+<h2 id="dynamic_searchlookups"><code>dynamic_search.lookups</code><a class="headerlink" href="#dynamic_searchlookups" title="Permanent link">&para;</a></h2>
+<p>Curated, index-friendly lookup sets and helpers.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EXACT_LOOKUPS</code></td>
+<td><code>{"exact", "iexact"}</code> — used for typed routing.</td>
+</tr>
+<tr>
+<td><code>TEXT_LOOKUPS</code></td>
+<td><code>{"contains", "icontains", "startswith", ...}</code> — free-text fallback.</td>
+</tr>
+<tr>
+<td><code>VALID_LOOKUPS</code></td>
+<td>Union of the two.</td>
+</tr>
+<tr>
+<td><code>is_text_lookup(lookup) -&gt; bool</code></td>
+<td>Whether a lookup joins the free-text branch.</td>
+</tr>
+<tr>
+<td><code>is_valid_lookup(lookup) -&gt; bool</code></td>
+<td>Whether a lookup is supported.</td>
+</tr>
+</tbody>
+</table>
+<p>To support extra lookups, extend these frozensets before Django loads settings
+(e.g. in your app's <code>apps.ready</code>), or supply a <code>queryset_builder</code> per field.</p>
+<hr />
+<h2 id="dynamic_searchsettings"><code>dynamic_search.settings</code><a class="headerlink" href="#dynamic_searchsettings" title="Permanent link">&para;</a></h2>
+<h3 id="get_settings-dynamicsearchsettings"><code>get_settings() -&gt; DynamicSearchSettings</code><a class="headerlink" href="#get_settings-dynamicsearchsettings" title="Permanent link">&para;</a></h3>
+<p>Returns the cached, validated settings (built on first access; invalidated on
+Django's <code>setting_changed</code>). This is the reader you call from custom code.</p>
+<h3 id="get_matcher_registry-dictstr-matcher"><code>get_matcher_registry() -&gt; dict[str, Matcher]</code><a class="headerlink" href="#get_matcher_registry-dictstr-matcher" title="Permanent link">&para;</a></h3>
+<p>Convenience accessor for the compiled <code>name -&gt; Matcher</code> registry.</p>
+<h3 id="reset_cache_-none"><code>reset_cache(**_) -&gt; None</code><a class="headerlink" href="#reset_cache_-none" title="Permanent link">&para;</a></h3>
+<p>Clears the settings cache. Useful in tests; automatically called when
+<code>DYNAMIC_SEARCH</code> changes.</p>
+<h3 id="data-classes">Data classes<a class="headerlink" href="#data-classes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>DynamicSearchSettings</code> — typed view over the settings dict; <code>use_elasticsearch</code>
+  property tells you whether the free-text backend is ES.</li>
+<li><code>ElasticsearchSettings</code> — typed view over the <code>ELASTICSEARCH</code> block.</li>
+<li><code>ElasticIndexConfig</code> — compiled per-model index definition (<code>label</code>,
+  <code>index_name</code>, <code>fields</code>).</li>
+</ul>
+<p>All configuration is data-driven, so you customize behaviour by editing the
+<code>DYNAMIC_SEARCH</code> dict rather than subclassing. See
+<a href="../configuration/">Configuration</a> and <a href="../elasticsearch/">Elasticsearch backend</a>.</p>
+<hr />
+<h2 id="dynamic_searchapps"><code>dynamic_search.apps</code><a class="headerlink" href="#dynamic_searchapps" title="Permanent link">&para;</a></h2>
+<h3 id="dynamicsearchconfigreadyself"><code>DynamicSearchConfig.ready(self)</code><a class="headerlink" href="#dynamicsearchconfigreadyself" title="Permanent link">&para;</a></h3>
+<p>Registers the startup system check and connects Elasticsearch auto-sync signals
+(fail-soft) when the ES backend is active.</p>
+<h3 id="check_dynamic_search_settingsapp_configs-kwargs-listerror"><code>check_dynamic_search_settings(app_configs, **kwargs) -&gt; list[Error]</code><a class="headerlink" href="#check_dynamic_search_settingsapp_configs-kwargs-listerror" title="Permanent link">&para;</a></h3>
+<p>Django system check that eagerly builds the matcher registry (surfacing bad
+regexes/lookups at boot) and validates Elasticsearch wiring (<code>E001</code>–<code>E003</code>).</p>
+<hr />
+<h2 id="dynamic_searchelastic-optional"><code>dynamic_search.elastic</code> (optional)<a class="headerlink" href="#dynamic_searchelastic-optional" title="Permanent link">&para;</a></h2>
+<p>Only imported when the <code>elasticsearch</code> extra is installed and the ES backend is
+active. See <a href="../elasticsearch/">Elasticsearch backend</a> for the settings.</p>
+<h3 id="elasticclient"><code>elastic.client</code><a class="headerlink" href="#elasticclient" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>get_client() -&gt; Elasticsearch</code> — returns the lazily-built, cached client
+  configured from <code>HOSTS</code> + <code>CLIENT_KWARGS</code>. Raises <code>ElasticsearchNotInstalled</code>
+  if the package is missing. Override the whole client construction by
+  monkeypatching this in tests, or by providing <code>CLIENT_KWARGS</code>.</li>
+<li><code>close_client(**_) -&gt; None</code> — closes and drops the cached client. Called
+  automatically on <code>setting_changed</code>; call it yourself in teardown if needed.</li>
+</ul>
+<h3 id="elasticprovider"><code>elastic.provider</code><a class="headerlink" href="#elasticprovider" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>build_text_provider(model) -&gt; ElasticTextProvider | None</code> — returns a provider
+  when the model has an index config, else <code>None</code> (so unindexed models fall back
+  to the database).</li>
+<li><code>ElasticTextProvider.search(self, queryset, value) -&gt; QuerySet</code> — runs the ES
+  query, then re-filters and re-orders the original queryset by hit pks
+  (relevance-preserving <code>Case</code>/<code>When</code>). Wraps client failures in
+  <code>ElasticsearchError</code>.</li>
+</ul>
+<p>To use a different engine (Solr, Meilisearch, OpenSearch), write a class with the
+same <code>search</code> signature and return it from <code>_build_text_provider</code> — you do not
+need this module at all.</p>
+<h3 id="elasticquery-pure-no-io"><code>elastic.query</code> (pure, no I/O)<a class="headerlink" href="#elasticquery-pure-no-io" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>split_terms(value) -&gt; list[tuple[str, bool]]</code> — tokenises into
+  <code>(term, is_phrase)</code>, honouring quotes.</li>
+<li><code>build_search_query(value, fields, *, size=1000, fuzziness="AUTO", source=False) -&gt; dict</code>
+  — builds the <code>bool</code> query body: AND across terms, OR across fields, phrase
+  matches for quoted input, fuzziness for bare terms. Override query shape by
+  wrapping this function in a custom provider.</li>
+</ul>
+<h3 id="elasticindexing-io"><code>elastic.indexing</code> (I/O)<a class="headerlink" href="#elasticindexing-io" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>resolve_model</code></td>
+<td><code>(label) -&gt; type[Model]</code></td>
+<td><code>"app.Model"</code> → model class.</td>
+</tr>
+<tr>
+<td><code>get_index_config</code></td>
+<td><code>(model) -&gt; ElasticIndexConfig \| None</code></td>
+<td>Index config for a model, if any.</td>
+</tr>
+<tr>
+<td><code>serialize_instance</code></td>
+<td><code>(instance, config) -&gt; dict</code></td>
+<td>Builds the ES document (configured fields + <code>pk</code>). Override to change the document shape.</td>
+</tr>
+<tr>
+<td><code>ensure_index</code></td>
+<td><code>(config) -&gt; None</code></td>
+<td>Creates the index with a default text+keyword mapping if absent. Pre-create the index yourself for custom analysers.</td>
+</tr>
+<tr>
+<td><code>index_instance</code></td>
+<td><code>(instance, config=None) -&gt; None</code></td>
+<td>Indexes/replaces one row.</td>
+</tr>
+<tr>
+<td><code>delete_document</code></td>
+<td><code>(instance_or_pk, config) -&gt; None</code></td>
+<td>Removes one document (idempotent).</td>
+</tr>
+<tr>
+<td><code>reindex_model</code></td>
+<td><code>(label, *, recreate=False, chunk_size=500) -&gt; int</code></td>
+<td>Bulk (re)index a whole model. Call from Celery/migrations.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="elasticsignals"><code>elastic.signals</code><a class="headerlink" href="#elasticsignals" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>connect_signals()</code> / <code>disconnect_signals()</code> — wire/unwire the fail-soft
+  <code>post_save</code>/<code>post_delete</code> auto-sync handlers per configured model. Disable
+  auto-sync (<code>AUTO_SYNC: False</code>) and drive <code>index_instance</code> / <code>reindex_model</code>
+  yourself for strict, transaction-aware consistency.</li>
+</ul>
+<hr />
+<h2 id="management-command">Management command<a class="headerlink" href="#management-command" title="Permanent link">&para;</a></h2>
+<h3 id="managepy-reindex_search-labels-recreate-chunk-size-n"><code>manage.py reindex_search [labels...] [--recreate] [--chunk-size N]</code><a class="headerlink" href="#managepy-reindex_search-labels-recreate-chunk-size-n" title="Permanent link">&para;</a></h3>
+<p>Thin CLI wrapper over <code>reindex_model</code>. With no labels it reindexes every
+configured model. See <a href="../elasticsearch/#keeping-indexes-in-sync">Elasticsearch backend</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../comparison/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Comparison with DRF SearchFilter">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Comparison with DRF SearchFilter
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../api/" class="md-footer__link md-footer__link--next" aria-label="Next: API reference">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                API reference
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; drf-typed-search contributors — MIT License
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/mhmohamad1380/drf-typed-search" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/drf-typed-search/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

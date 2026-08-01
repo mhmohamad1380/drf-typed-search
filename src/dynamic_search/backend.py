@@ -105,9 +105,43 @@ class DynamicSearchBackend(BaseFilterBackend):
         if cached is not None:
             return cached
         fields = compile_search_fields(raw_config, model)
-        engine = SearchEngine(fields, settings.matchers, settings)
+        text_provider = self._build_text_provider(view, model, settings)
+        engine = SearchEngine(
+            fields, settings.matchers, settings, text_provider=text_provider
+        )
         self._engine_cache[cache_key] = engine
         return engine
+
+    def _build_text_provider(
+        self, view: Any, model: type, settings: DynamicSearchSettings
+    ) -> Any:
+        """Build the free-text provider for this view, if one applies.
+
+        Elasticsearch is used for the free-text branch only when *all* hold:
+
+        * the global ``TEXT_BACKEND`` is ``"elasticsearch"`` (or the view opts in
+          via ``search_text_backend = "elasticsearch"``);
+        * the view has not opted *out* via ``search_text_backend = "database"``;
+        * the queryset's model has a configured Elasticsearch index.
+
+        Otherwise ``None`` is returned and the engine uses the ORM free-text
+        search — so unindexed models transparently fall back to the database.
+        This is what lets the same project route some models to Elasticsearch,
+        some to the normal database search, while regex/typed routing always
+        stays on the database.
+        """
+        from .settings import TEXT_BACKEND_ELASTICSEARCH
+
+        # Per-view override wins over the global setting.
+        backend = getattr(view, "search_text_backend", None) or settings.text_backend
+        if backend != TEXT_BACKEND_ELASTICSEARCH:
+            return None
+
+        # Import lazily so the optional dependency is only touched when ES is on.
+        from .elastic.provider import build_text_provider
+
+        return build_text_provider(model)
+
 
     # --- DRF browsable API integration -------------------------------------
 

@@ -6,6 +6,39 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-08-01
+
+### Added
+- **Optional Elasticsearch free-text backend.** Set
+  `DYNAMIC_SEARCH["TEXT_BACKEND"] = "elasticsearch"` to route the *free-text
+  fallback* branch to Elasticsearch while typed/regex routing keeps hitting the
+  database. Configured per model via
+  `DYNAMIC_SEARCH["ELASTICSEARCH"]["INDEXES"]`; models that aren't indexed
+  transparently fall back to the database `icontains` branch.
+- New optional dependency extra: `pip install drf-typed-search[elasticsearch]`
+  (`elasticsearch>=8.0,<9.0`). The core library still has **no** hard dependency
+  on it — nothing under `dynamic_search.elastic` is imported at package import
+  time.
+- New `dynamic_search.elastic` subpackage: lazily-cached `client`, a pure
+  `query` builder (`build_search_query`), `indexing` helpers (`ensure_index`,
+  `serialize_instance`, `index_instance`, `delete_document`, `reindex_model`),
+  the `ElasticTextProvider` / `build_text_provider`, and optional `post_save` /
+  `post_delete` sync `signals`.
+- New management command `manage.py reindex_search [labels...] [--recreate]
+  [--chunk-size N]` for initial backfill and rebuilds; a thin wrapper over
+  `reindex_model` so it can also run from Celery tasks or data migrations.
+- `AUTO_SYNC` (default `True`) keeps indexes current via model signals;
+  `ElasticsearchNotInstalled` / `ElasticsearchError` give clear, catchable
+  failures for missing dependency or unreachable cluster.
+- Documentation: `docs/elasticsearch.md` covering routing tiers, settings
+  reference, sync, and graceful degradation.
+
+### Compatibility
+- **No public API changes and no breaking changes.** `TEXT_BACKEND` defaults to
+  `"database"`, so existing installs behave exactly as in 1.1.0. Elasticsearch
+  support is purely additive — a minor release. Upgrade is a drop-in
+  `pip install -U drf-typed-search`.
+
 ## [1.1.0] - 2026-07-28
 
 ### Added
@@ -69,7 +102,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Comprehensive pytest suite (matchers, settings, config, engine, backend,
   performance/SQL regression).
 
-[Unreleased]: https://github.com/mhmohamad1380/drf-typed-search/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/mhmohamad1380/drf-typed-search/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/mhmohamad1380/drf-typed-search/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/mhmohamad1380/drf-typed-search/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/mhmohamad1380/drf-typed-search/releases/tag/v1.0.0
 

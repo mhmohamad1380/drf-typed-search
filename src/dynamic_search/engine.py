@@ -36,6 +36,7 @@ import shlex
 from collections.abc import Sequence
 from dataclasses import dataclass
 from dataclasses import field as dc_field
+from typing import Protocol, runtime_checkable
 
 from django.db.models import Q, QuerySet
 
@@ -44,7 +45,24 @@ from .lookups import TEXT_LOOKUPS
 from .matchers import Matcher
 from .settings import DynamicSearchSettings
 
-__all__ = ["SearchEngine", "SearchResult"]
+__all__ = ["SearchEngine", "SearchResult", "TextSearchProvider"]
+
+
+@runtime_checkable
+class TextSearchProvider(Protocol):
+    """Pluggable free-text backend.
+
+    A provider owns the *free-text* branch only; typed regex/callable routing is
+    always handled by the database. The built-in implementation is
+    :class:`~dynamic_search.elastic.provider.ElasticTextProvider`, but any object
+    exposing this interface can be injected (e.g. for tests or an alternative
+    search engine).
+    """
+
+    def search(self, queryset: QuerySet, value: str) -> QuerySet:
+        """Return ``queryset`` narrowed to rows matching the free-text ``value``."""
+        ...
+
 
 
 @dataclass(frozen=True)
@@ -91,6 +109,7 @@ class SearchEngine:
         "_settings",
         "_text_field_names",
         "_text_plan",
+        "_text_provider",
         "_typed_plan",
     )
 
@@ -99,8 +118,13 @@ class SearchEngine:
         fields: Sequence[SearchField],
         matchers: dict[str, Matcher],
         settings: DynamicSearchSettings,
+        text_provider: TextSearchProvider | None = None,
     ) -> None:
         self._settings = settings
+        # Optional pluggable free-text backend (e.g. Elasticsearch). When set,
+        # it replaces the ORM free-text branch; typed routing is unaffected.
+        self._text_provider = text_provider
+
 
         # --- typed routing plan (built once) --------------------------------
         # Resolve every matcher-bound field to its Matcher up front and drop
@@ -156,10 +180,21 @@ class SearchEngine:
         if typed is not None:
             return typed
 
+        # Free-text branch. When a provider is configured (e.g. Elasticsearch)
+        # it fully owns this branch; otherwise fall back to the ORM search.
+        if self._text_provider is not None:
+            qs = self._text_provider.search(queryset, value)
+            return SearchResult(
+                queryset=qs,
+                matched_fields=list(self._text_field_names),
+                strategy="text",
+            )
+
         if self._text_plan:
             return self._free_text(queryset, value)
 
         if self._settings.empty_on_no_match:
+
             return SearchResult(queryset=queryset.none(), strategy="empty")
         return SearchResult(queryset=queryset, strategy="none")
 

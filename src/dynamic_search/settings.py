@@ -12,6 +12,18 @@ Users configure matchers once, globally, in Django settings::
         "DEFAULT_TEXT_LOOKUP": "icontains",
         "SEARCH_PARAM": "search",
         "EMPTY_ON_NO_MATCH": True,
+        # Which backend serves the free-text fallback. Typed (regex/callable)
+        # routing is always handled by the database; only the *free-text* branch
+        # is affected. Either ``"database"`` (default) or ``"elasticsearch"``.
+        "TEXT_BACKEND": "database",
+        "ELASTICSEARCH": {
+            "HOSTS": ["http://localhost:9200"],
+            "INDEX_PREFIX": "",
+            "AUTO_SYNC": True,
+            "INDEXES": {
+                # "app_label.ModelName": {"fields": ["title", "body"]},
+            },
+        },
     }
 
 The registry is *built once* and cached. Because matchers are immutable, the
@@ -40,13 +52,34 @@ from .matchers import Matcher, build_matcher
 
 __all__ = [
     "SETTINGS_KEY",
+    "TEXT_BACKEND_DATABASE",
+    "TEXT_BACKEND_ELASTICSEARCH",
     "DynamicSearchSettings",
+    "ElasticIndexConfig",
+    "ElasticsearchSettings",
     "get_matcher_registry",
     "get_settings",
     "reset_cache",
 ]
 
 SETTINGS_KEY = "DYNAMIC_SEARCH"
+
+#: Recognised free-text backends.
+TEXT_BACKEND_DATABASE = "database"
+TEXT_BACKEND_ELASTICSEARCH = "elasticsearch"
+_VALID_TEXT_BACKENDS = frozenset({TEXT_BACKEND_DATABASE, TEXT_BACKEND_ELASTICSEARCH})
+
+_ES_DEFAULTS: dict[str, Any] = {
+    "HOSTS": ["http://localhost:9200"],
+    "INDEX_PREFIX": "",
+    "AUTO_SYNC": True,
+    "INDEXES": {},
+    # Extra keyword arguments forwarded verbatim to the Elasticsearch client
+    # constructor (e.g. ``basic_auth``, ``api_key``, ``verify_certs``).
+    "CLIENT_KWARGS": {},
+    # Number of hits Elasticsearch returns per free-text query.
+    "RESULT_SIZE": 1000,
+}
 
 _DEFAULTS: dict[str, Any] = {
     "MATCHERS": {},
@@ -55,7 +88,31 @@ _DEFAULTS: dict[str, Any] = {
     # When nothing matches and no free-text fields exist, return an empty
     # queryset instead of leaking the entire table.
     "EMPTY_ON_NO_MATCH": True,
+    # Free-text backend; typed regex/callable routing always hits the database.
+    "TEXT_BACKEND": TEXT_BACKEND_DATABASE,
+    "ELASTICSEARCH": {},
 }
+
+
+@dataclass(frozen=True)
+class ElasticIndexConfig:
+    """Compiled definition of a single model's Elasticsearch index."""
+
+    label: str  # "app_label.ModelName"
+    index_name: str  # resolved, prefix-applied index name
+    fields: tuple[str, ...]  # model fields whose text is indexed / searched
+
+
+@dataclass(frozen=True)
+class ElasticsearchSettings:
+    """Typed, validated view over ``DYNAMIC_SEARCH['ELASTICSEARCH']``."""
+
+    hosts: tuple[str, ...]
+    index_prefix: str
+    auto_sync: bool
+    result_size: int
+    client_kwargs: Mapping[str, Any]
+    indexes: Mapping[str, ElasticIndexConfig]  # keyed by "app_label.ModelName"
 
 
 @dataclass(frozen=True)
@@ -66,7 +123,14 @@ class DynamicSearchSettings:
     default_text_lookup: str
     search_param: str
     empty_on_no_match: bool
+    text_backend: str
+    elasticsearch: ElasticsearchSettings
     raw: Mapping[str, Any] = field(default_factory=dict)
+
+    @property
+    def use_elasticsearch(self) -> bool:
+        """Whether the free-text fallback should be served by Elasticsearch."""
+        return self.text_backend == TEXT_BACKEND_ELASTICSEARCH
 
 
 def _build_matcher_registry(raw_matchers: Any) -> dict[str, Matcher]:
@@ -151,6 +215,98 @@ def _parse_prefilters(name: str, spec: Mapping[str, Any]) -> dict[str, Any]:
     return hints
 
 
+def _build_index_config(label: str, spec: Any, prefix: str) -> ElasticIndexConfig:
+    """Compile a single ``INDEXES`` entry into an :class:`ElasticIndexConfig`."""
+    if not isinstance(label, str) or "." not in label:
+        raise InvalidConfigurationError(
+            f"{SETTINGS_KEY}['ELASTICSEARCH']['INDEXES'] keys must be "
+            f"'app_label.ModelName'; got {label!r}."
+        )
+    if not isinstance(spec, Mapping):
+        raise InvalidConfigurationError(
+            f"Elasticsearch index spec for {label!r} must be a mapping; "
+            f"got {type(spec).__name__!r}."
+        )
+
+    raw_fields = spec.get("fields")
+    if not raw_fields or not isinstance(raw_fields, (list, tuple)):
+        raise InvalidConfigurationError(
+            f"Elasticsearch index spec for {label!r} must define a non-empty "
+            f"'fields' list."
+        )
+    fields = tuple(str(f) for f in raw_fields)
+
+    index_name = spec.get("index")
+    if index_name is None:
+        index_name = f"{prefix}{label.replace('.', '_').lower()}"
+    else:
+        index_name = f"{prefix}{index_name}"
+
+    return ElasticIndexConfig(label=label, index_name=str(index_name), fields=fields)
+
+
+def _build_elasticsearch_settings(raw: Any) -> ElasticsearchSettings:
+    """Compile ``DYNAMIC_SEARCH['ELASTICSEARCH']`` into typed settings."""
+    if raw is None:
+        raw = {}
+    if not isinstance(raw, Mapping):
+        raise InvalidConfigurationError(
+            f"{SETTINGS_KEY}['ELASTICSEARCH'] must be a dict; "
+            f"got {type(raw).__name__!r}."
+        )
+
+    merged = {**_ES_DEFAULTS, **raw}
+
+    hosts = merged["HOSTS"]
+    if isinstance(hosts, str):
+        hosts = [hosts]
+    if not isinstance(hosts, (list, tuple)) or not hosts:
+        raise InvalidConfigurationError(
+            f"{SETTINGS_KEY}['ELASTICSEARCH']['HOSTS'] must be a non-empty "
+            f"list of host strings."
+        )
+
+    result_size = merged["RESULT_SIZE"]
+    if (
+        not isinstance(result_size, int)
+        or isinstance(result_size, bool)
+        or result_size <= 0
+    ):
+
+        raise InvalidConfigurationError(
+            f"{SETTINGS_KEY}['ELASTICSEARCH']['RESULT_SIZE'] must be a "
+            f"positive int."
+        )
+
+    client_kwargs = merged["CLIENT_KWARGS"] or {}
+    if not isinstance(client_kwargs, Mapping):
+        raise InvalidConfigurationError(
+            f"{SETTINGS_KEY}['ELASTICSEARCH']['CLIENT_KWARGS'] must be a dict."
+        )
+
+    prefix = str(merged["INDEX_PREFIX"] or "")
+
+    raw_indexes = merged["INDEXES"] or {}
+    if not isinstance(raw_indexes, Mapping):
+        raise InvalidConfigurationError(
+            f"{SETTINGS_KEY}['ELASTICSEARCH']['INDEXES'] must be a mapping of "
+            f"'app_label.ModelName' -> spec."
+        )
+    indexes = {
+        label: _build_index_config(label, spec, prefix)
+        for label, spec in raw_indexes.items()
+    }
+
+    return ElasticsearchSettings(
+        hosts=tuple(str(h) for h in hosts),
+        index_prefix=prefix,
+        auto_sync=bool(merged["AUTO_SYNC"]),
+        result_size=result_size,
+        client_kwargs=dict(client_kwargs),
+        indexes=indexes,
+    )
+
+
 def _load() -> DynamicSearchSettings:
     user = getattr(django_settings, SETTINGS_KEY, {}) or {}
     if not isinstance(user, Mapping):
@@ -167,11 +323,20 @@ def _load() -> DynamicSearchSettings:
             f"{default_text_lookup!r} is invalid."
         )
 
+    text_backend = str(merged["TEXT_BACKEND"])
+    if text_backend not in _VALID_TEXT_BACKENDS:
+        raise InvalidConfigurationError(
+            f"{SETTINGS_KEY}['TEXT_BACKEND'] = {text_backend!r} is invalid. "
+            f"Valid values: {sorted(_VALID_TEXT_BACKENDS)}."
+        )
+
     return DynamicSearchSettings(
         matchers=_build_matcher_registry(merged["MATCHERS"]),
         default_text_lookup=default_text_lookup,
         search_param=str(merged["SEARCH_PARAM"]),
         empty_on_no_match=bool(merged["EMPTY_ON_NO_MATCH"]),
+        text_backend=text_backend,
+        elasticsearch=_build_elasticsearch_settings(merged["ELASTICSEARCH"]),
         raw=user,
     )
 

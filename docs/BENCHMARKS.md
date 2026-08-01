@@ -7,7 +7,8 @@ These benchmarks cover two distinct questions:
    `icontains` across every field.
 2. **Python-side overhead** (§ *Python-side optimization: before / after*) — the
    internal engine refactor in v1.1.0, measured with the reproducible harness in
-   [`benchmarks/bench_engine.py`](../benchmarks/bench_engine.py).
+   [`benchmarks/bench_engine.py`](https://github.com/mhmohamad1380/drf-typed-search/blob/main/benchmarks/bench_engine.py).
+
 
 ---
 

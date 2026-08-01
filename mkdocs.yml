@@ -1,0 +1,114 @@
+site_name: drf-typed-search
+site_description: A type-aware, matcher-routed search backend for Django REST Framework.
+site_author: dynamic_search contributors
+site_url: https://mhmohamad1380.github.io/drf-typed-search/
+repo_name: mhmohamad1380/drf-typed-search
+repo_url: https://github.com/mhmohamad1380/drf-typed-search
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; drf-typed-search contributors — MIT License
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+    - search.suggest
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Installation: installation.md
+      - Configuration: configuration.md
+      - Usage: usage.md
+  - Guides:
+      - Matchers: matchers.md
+      - Elasticsearch backend: elasticsearch.md
+      - Annotations & custom SQL: advanced.md
+      - Comparison with DRF SearchFilter: comparison.md
+
+  - Reference:
+      - Methods & customization: methods.md
+      - API reference: api.md
+      - Benchmarks: BENCHMARKS.md
+
+
+  - Project:
+      - Changelog: changelog.md
+      - Release notes: release-notes.md
+      - Contributing: contributing.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: true
+            show_root_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            members_order: source
+            docstring_style: google
+            separate_signature: true
+            merge_init_into_class: true
+            filters: ["!^_"]
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
+
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/mhmohamad1380/drf-typed-search
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/drf-typed-search/

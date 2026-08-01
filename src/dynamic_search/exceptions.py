@@ -13,6 +13,8 @@ __all__ = [
     "ConfigurationError",
     "DuplicateMatcherError",
     "DynamicSearchError",
+    "ElasticsearchError",
+    "ElasticsearchNotInstalled",
     "InvalidConfigurationError",
     "InvalidJoinError",
     "InvalidLookupError",
@@ -56,3 +58,11 @@ class InvalidJoinError(ConfigurationError):
 
 class MatcherError(ConfigurationError):
     """Raised when a matcher specification is invalid."""
+
+
+class ElasticsearchError(DynamicSearchError):
+    """Base class for Elasticsearch integration errors (runtime, not config)."""
+
+
+class ElasticsearchNotInstalled(ConfigurationError):
+    """Raised when Elasticsearch is enabled but the client library is missing."""
