@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-notes-drf-typed-search-v110" class="md-skip">
+        <a href="#release-notes-drf-typed-search-v120" class="md-skip">
           Skip to content
         </a>
       
@@ -915,10 +915,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-matcher-priority-deterministic-routing-for-overlapping-shapes" class="md-nav__link">
+  <a href="#optional-elasticsearch-free-text-backend" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Matcher priority — deterministic routing for overlapping shapes
+        Optional Elasticsearch free-text backend
       
     </span>
   </a>
@@ -926,10 +926,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-cheap-o1-regex-pre-filters" class="md-nav__link">
+  <a href="#automatic-index-sync-reindex-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Cheap O(1) regex pre-filters
+        Automatic index sync + reindex command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relevance-ranked-still-a-real-queryset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relevance-ranked, still a real queryset
       
     </span>
   </a>
@@ -942,21 +953,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#performance" class="md-nav__link">
+  <a href="#whats-new-under-the-hood" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ⚡ Performance
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quality" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🧪 Quality
+        🧩 What's new under the hood
       
     </span>
   </a>
@@ -1079,10 +1079,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-matcher-priority-deterministic-routing-for-overlapping-shapes" class="md-nav__link">
+  <a href="#optional-elasticsearch-free-text-backend" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Matcher priority — deterministic routing for overlapping shapes
+        Optional Elasticsearch free-text backend
       
     </span>
   </a>
@@ -1090,10 +1090,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-cheap-o1-regex-pre-filters" class="md-nav__link">
+  <a href="#automatic-index-sync-reindex-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Cheap O(1) regex pre-filters
+        Automatic index sync + reindex command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relevance-ranked-still-a-real-queryset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relevance-ranked, still a real queryset
       
     </span>
   </a>
@@ -1106,21 +1117,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#performance" class="md-nav__link">
+  <a href="#whats-new-under-the-hood" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ⚡ Performance
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quality" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🧪 Quality
+        🧩 What's new under the hood
       
     </span>
   </a>
@@ -1169,122 +1169,136 @@
   
 
 
-<h1 id="release-notes-drf-typed-search-v110">Release Notes — drf-typed-search v1.1.0<a class="headerlink" href="#release-notes-drf-typed-search-v110" title="Permanent link">&para;</a></h1>
-<p><strong>Release date:</strong> 2026-07-28
-<strong>Type:</strong> Minor, feature + performance release — <strong>100% backward compatible</strong> (no public API changes)</p>
+<h1 id="release-notes-drf-typed-search-v120">Release Notes — drf-typed-search v1.2.0<a class="headerlink" href="#release-notes-drf-typed-search-v120" title="Permanent link">&para;</a></h1>
+<p><strong>Release date:</strong> 2026-08-01
+<strong>Type:</strong> Minor, feature release — <strong>100% backward compatible</strong> (no public API changes)</p>
 <hr />
 <h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
-<p>This release makes routing <strong>explicit, deterministic, and faster</strong> without
-changing any public API. You get a new <code>priority</code> knob for overlapping
-matchers, optional O(1) regex pre-filters, and a precompiled/cached hot path.
-Upgrading is a drop-in <code>pip install -U</code>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>drf-typed-search
+<p>This release adds an <strong>optional Elasticsearch backend for the free-text
+branch</strong> of search — without changing any public API or adding a hard
+dependency. Typed/regex routing still goes straight to the database; only the
+free-text fallback can now be served by Elasticsearch, per model. Everything
+defaults off, so upgrading is a drop-in <code>pip install -U</code>.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>drf-typed-search<span class="w">            </span><span class="c1"># core, unchanged</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="s1">&#39;drf-typed-search[elasticsearch]&#39;</span><span class="w">   </span><span class="c1"># opt into the new backend</span>
 </span></code></pre></div>
 <hr />
 <h2 id="highlights">✨ Highlights<a class="headerlink" href="#highlights" title="Permanent link">&para;</a></h2>
-<h3 id="1-matcher-priority-deterministic-routing-for-overlapping-shapes">1. Matcher <code>priority</code> — deterministic routing for overlapping shapes<a class="headerlink" href="#1-matcher-priority-deterministic-routing-for-overlapping-shapes" title="Permanent link">&para;</a></h3>
-<p>When two matchers can match the same input (classic example: a plain integer
-that is valid for both <code>id</code> and a numeric <code>national_code</code>), you can now decide
-the winner explicitly:</p>
+<h3 id="optional-elasticsearch-free-text-backend">Optional Elasticsearch free-text backend<a class="headerlink" href="#optional-elasticsearch-free-text-backend" title="Permanent link">&para;</a></h3>
+<p>Every search value flows through the same two-stage pipeline as before:</p>
+<ol>
+<li><strong>Typed routing first</strong> — a value matching a matcher or a field regex
+   (national code, UUID, phone number, …) becomes a precise <strong>database</strong> lookup.
+   Elasticsearch is never involved.</li>
+<li><strong>Free-text fallback second</strong> — only <em>this</em> branch can now be routed to
+   Elasticsearch.</li>
+</ol>
+<p>Turn it on globally and index just your hot models:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">DYNAMIC_SEARCH</span> <span class="o">=</span> <span class="p">{</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="s2">&quot;MATCHERS&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        <span class="s2">&quot;id&quot;</span><span class="p">:</span>            <span class="p">{</span><span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">isdigit</span><span class="p">(),</span> <span class="s2">&quot;lookup&quot;</span><span class="p">:</span> <span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="s2">&quot;priority&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        <span class="s2">&quot;national_code&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^\d</span><span class="si">{10}</span><span class="s2">$&quot;</span><span class="p">,</span>           <span class="s2">&quot;lookup&quot;</span><span class="p">:</span> <span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="s2">&quot;priority&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="p">}</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">}</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        <span class="s2">&quot;national_code&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^\d</span><span class="si">{10}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="s2">&quot;lookup&quot;</span><span class="p">:</span> <span class="s2">&quot;exact&quot;</span><span class="p">},</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="p">},</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="s2">&quot;DEFAULT_TEXT_LOOKUP&quot;</span><span class="p">:</span> <span class="s2">&quot;icontains&quot;</span><span class="p">,</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="c1"># &quot;database&quot; (default) keeps the old behaviour; &quot;elasticsearch&quot; opts in.</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="s2">&quot;TEXT_BACKEND&quot;</span><span class="p">:</span> <span class="s2">&quot;elasticsearch&quot;</span><span class="p">,</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="s2">&quot;ELASTICSEARCH&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="s2">&quot;HOSTS&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;http://localhost:9200&quot;</span><span class="p">],</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="s2">&quot;INDEX_PREFIX&quot;</span><span class="p">:</span> <span class="s2">&quot;myproject_&quot;</span><span class="p">,</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        <span class="s2">&quot;AUTO_SYNC&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        <span class="s2">&quot;RESULT_SIZE&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="s2">&quot;CLIENT_KWARGS&quot;</span><span class="p">:</span> <span class="p">{},</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="s2">&quot;INDEXES&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>            <span class="s2">&quot;blog.Article&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;tags&quot;</span><span class="p">]},</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>            <span class="s2">&quot;shop.Product&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">],</span> <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;products&quot;</span><span class="p">},</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>        <span class="p">},</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    <span class="p">},</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="p">}</span>
 </span></code></pre></div>
-<ul>
-<li>Routing tries matchers in <strong>descending priority</strong>; ties fall back to
-  declaration order in <code>search_fields_config</code>.</li>
-<li>Default is <code>priority: 0</code>, so existing configs behave exactly as before.</li>
-<li>Ordering is resolved <strong>once</strong> when the engine is built — zero per-request cost.</li>
-</ul>
-<h3 id="2-cheap-o1-regex-pre-filters">2. Cheap O(1) regex pre-filters<a class="headerlink" href="#2-cheap-o1-regex-pre-filters" title="Permanent link">&para;</a></h3>
-<p>Matchers may declare <code>min_len</code>, <code>max_len</code>, and/or <code>prefix</code>. These are checked
-with plain string ops <strong>before</strong> the regex engine runs, letting a matcher
-reject obviously-wrong values in nanoseconds:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="s2">&quot;phone_number&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="s2">&quot;pattern&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^09\d</span><span class="si">{9}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="s2">&quot;lookup&quot;</span><span class="p">:</span> <span class="s2">&quot;exact&quot;</span><span class="p">,</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;09&quot;</span><span class="p">,</span> <span class="s2">&quot;min_len&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;max_len&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">}</span>
-</span></code></pre></div>
-<p>They are pure optimisations — a value that passes them must still satisfy the
-regex, so <strong>results never change</strong>.</p>
-<hr />
-<h2 id="performance">⚡ Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
-<p>All value-independent work — matcher resolution, priority ordering, text-lookup
-resolution, ORM path construction, annotation de-duplication — now happens
-<strong>once</strong> in <code>SearchEngine.__init__</code> and is stored as immutable tuples. The
-per-request hot path does no dict lookups, no <code>str.join</code>, and no config
-inspection. The backend also <strong>caches the fully-built engine per view class</strong>,
-so validation + plan construction run once, not per request.</p>
-<p>Measured worst case (<strong>30 regex matchers</strong>, matching one placed <em>last</em> so all
-29 others run and fail; <code>benchmarks/bench_routing_30.py</code>):</p>
+<p>This gives you <strong>three tiers per value</strong>:</p>
 <table>
 <thead>
 <tr>
-<th>Scenario</th>
-<th>Per request</th>
-<th>Throughput (1 core)</th>
+<th>Tier</th>
+<th>Handled by</th>
+<th>When</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Compiled regex (no pre-filter)</td>
-<td>~8–12 µs</td>
-<td>~84k–118k routes/sec</td>
+<td>Regex/typed</td>
+<td>Database (ORM lookup)</td>
+<td>Value matches a matcher or a field regex</td>
 </tr>
 <tr>
-<td>Compiled regex + pre-filter</td>
-<td>~7.7–9 µs</td>
-<td>~111k–129k routes/sec</td>
+<td>Elasticsearch</td>
+<td>ES index</td>
+<td>Free text <strong>and</strong> model is in <code>INDEXES</code></td>
 </tr>
 <tr>
-<td>Naive <code>re.compile</code> per request (avoided)</td>
-<td>~21–23 µs</td>
-<td>—</td>
+<td>Normal text</td>
+<td>Database (ORM lookup)</td>
+<td>Free text and model is <em>not</em> indexed</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Context:</strong> at 1000 req/s with 30 matchers, worst-case routing costs ≈ <strong>~1% of
-one CPU core</strong>. The decisive win over DRF <code>SearchFilter</code> remains at the database
-layer — routing a typed input to a single <strong>indexed <code>exact</code></strong> lookup instead of a
-30-column unindexed <code>ILIKE '%term%'</code> sequential scan.</p>
-<p><code>SearchEngine</code> also gained <code>__slots__</code> for lower memory and faster attribute
-access.</p>
+<p>Models not listed in <code>INDEXES</code> transparently fall back to the database
+<code>icontains</code> branch — so you can index only what benefits and leave the rest on
+the ORM with zero extra config.</p>
+<h3 id="automatic-index-sync-reindex-command">Automatic index sync + reindex command<a class="headerlink" href="#automatic-index-sync-reindex-command" title="Permanent link">&para;</a></h3>
+<p>With <code>AUTO_SYNC = True</code> (default), <code>post_save</code> / <code>post_delete</code> signals keep
+indexes current. For the initial backfill or a rebuild after a mapping change:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>manage.py<span class="w"> </span>reindex_search<span class="w">                              </span><span class="c1"># all configured models</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>manage.py<span class="w"> </span>reindex_search<span class="w"> </span>blog.Article<span class="w"> </span>--recreate<span class="w">      </span><span class="c1"># rebuild one index</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>python<span class="w"> </span>manage.py<span class="w"> </span>reindex_search<span class="w"> </span>--chunk-size<span class="w"> </span><span class="m">1000</span><span class="w">            </span><span class="c1"># tune bulk size</span>
+</span></code></pre></div>
+<p>The command is a thin wrapper over
+<code>dynamic_search.elastic.indexing.reindex_model</code>, so the same logic runs from a
+Celery task or data migration.</p>
+<h3 id="relevance-ranked-still-a-real-queryset">Relevance-ranked, still a real queryset<a class="headerlink" href="#relevance-ranked-still-a-real-queryset" title="Permanent link">&para;</a></h3>
+<p>Free-text values are tokenised (with <code>"quoted phrases"</code> kept intact) into a
+<code>bool</code> query that is <strong>AND across terms</strong> and <strong>OR across fields</strong>
+(<code>multi_match</code> with <code>fuzziness: AUTO</code>, <code>phrase</code> match for quotes). Only document
+ids are fetched; the provider then filters your original queryset by those pks
+and re-orders it with a <code>Case</code>/<code>When</code> expression so DB results preserve ES
+relevance. Because it returns a real Django queryset, DRF serializers,
+pagination, permissions and <code>select_related</code> all keep working unchanged.</p>
 <hr />
-<h2 id="quality">🧪 Quality<a class="headerlink" href="#quality" title="Permanent link">&para;</a></h2>
+<h2 id="whats-new-under-the-hood">🧩 What's new under the hood<a class="headerlink" href="#whats-new-under-the-hood" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>84 tests</strong>, <strong>97% coverage</strong> (<code>pytest --cov</code>).</li>
-<li>New regression tests: priority routing, deterministic tie-breaks, Unicode /
-  Persian free-text, single-application of annotations across multi-term
-  searches, engine-reuse (no per-request rebuild), and bounded query counts.</li>
-<li>Green quality gate: <code>ruff</code>, <code>black --check</code>, <code>mypy --strict</code>.</li>
-<li><code>python -m build</code> + <code>twine check dist/*</code> both <strong>PASS</strong> (sdist + wheel).</li>
+<li>New optional extra: <code>elasticsearch&gt;=8.0,&lt;9.0</code>. <strong>No hard dependency</strong> —
+  nothing under <code>dynamic_search.elastic</code> is imported at package import time; the
+  client is built lazily on first use.</li>
+<li>New <code>dynamic_search.elastic</code> subpackage:</li>
+<li><code>client</code> — lazily-constructed, cached Elasticsearch client from settings.</li>
+<li><code>query</code> — pure <code>build_search_query</code> (no I/O, trivially unit-testable).</li>
+<li><code>indexing</code> — <code>ensure_index</code>, <code>serialize_instance</code>, <code>index_instance</code>,
+    <code>delete_document</code>, <code>reindex_model</code>.</li>
+<li><code>provider</code> — <code>ElasticTextProvider</code> / <code>build_text_provider</code>.</li>
+<li><code>signals</code> — optional <code>post_save</code> / <code>post_delete</code> sync handlers.</li>
+<li>New management command <code>reindex_search</code>.</li>
+<li>New exceptions <code>ElasticsearchNotInstalled</code> (missing package, with install
+  hint) and <code>ElasticsearchError</code> (cluster unreachable), both catchable for
+  graceful degradation back to the database.</li>
+<li>New guide: <code>docs/elasticsearch.md</code>.</li>
 </ul>
 <hr />
 <h2 id="compatibility-upgrade-notes">🔁 Compatibility &amp; upgrade notes<a class="headerlink" href="#compatibility-upgrade-notes" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>No public API changes.</strong> <code>DynamicSearchBackend</code>, <code>SearchEngine</code>,
-  <code>search_fields_config</code>, matchers, and all documented settings behave exactly
-  as before. <code>priority</code> and the pre-filter keys are optional additions.</li>
-<li>Internal only: the backend's private cache attribute was renamed
-  <code>_compiled_cache</code> → <code>_engine_cache</code>. If you relied on that private name
-  (you shouldn't have), update accordingly.</li>
+<li><strong>No public API changes and no breaking changes.</strong> <code>TEXT_BACKEND</code> defaults to
+  <code>"database"</code>, so existing installs behave exactly as in 1.1.0.</li>
+<li>Because the feature is purely additive, this is a <strong>minor</strong> release
+  (1.1.0 → 1.2.0), per <a href="https://semver.org/">Semantic Versioning</a>.</li>
+<li>Nothing to change on upgrade — install and, optionally, add
+  <code>TEXT_BACKEND</code> + <code>ELASTICSEARCH</code> config where it helps.</li>
 </ul>
-<p>Nothing to change on upgrade — just install and, optionally, add <code>priority</code> /
-pre-filters where they help.</p>
 <hr />
 <h2 id="links">📚 Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Changelog: <a href="https://github.com/mhmohamad1380/drf-typed-search/blob/main/CHANGELOG.md"><code>CHANGELOG.md</code></a></li>
-<li>
-<p>Benchmarks: <a href="https://github.com/mhmohamad1380/drf-typed-search/blob/main/docs/BENCHMARKS.md"><code>docs/BENCHMARKS.md</code></a>,
-  <a href="https://github.com/mhmohamad1380/drf-typed-search/blob/main/benchmarks/bench_routing_30.py"><code>benchmarks/bench_routing_30.py</code></a></p>
-</li>
-<li>
-<p>Full diff: https://github.com/mhmohamad1380/drf-typed-search/compare/v1.0.0...v1.1.0</p>
-</li>
+<li>Elasticsearch guide: <a href="https://github.com/mhmohamad1380/drf-typed-search/blob/main/docs/elasticsearch.md"><code>docs/elasticsearch.md</code></a></li>
+<li>Full diff: https://github.com/mhmohamad1380/drf-typed-search/compare/v1.1.0...v1.2.0</li>
 </ul>
 
 

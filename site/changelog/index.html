@@ -875,6 +875,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#120-2026-08-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.0 - 2026-08-01
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2.0 - 2026-08-01">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#110-2026-07-28" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -887,7 +926,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#added_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -909,7 +948,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#compatibility" class="md-nav__link">
+  <a href="#compatibility_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Compatibility
@@ -937,7 +976,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_1" class="md-nav__link">
+  <a href="#added_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -1062,6 +1101,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#120-2026-08-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.0 - 2026-08-01
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2.0 - 2026-08-01">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#110-2026-07-28" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1074,7 +1152,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#added_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -1096,7 +1174,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#compatibility" class="md-nav__link">
+  <a href="#compatibility_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Compatibility
@@ -1124,7 +1202,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_1" class="md-nav__link">
+  <a href="#added_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Added
@@ -1163,9 +1241,43 @@
 <p>All notable changes to this project are documented here. The format follows
 <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a> and this project
 adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
-<h2 id="unreleased"><a href="https://github.com/mhmohamad1380/drf-typed-search/compare/v1.1.0...HEAD">Unreleased</a><a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
-<h2 id="110-2026-07-28"><a href="https://github.com/mhmohamad1380/drf-typed-search/compare/v1.0.0...v1.1.0">1.1.0</a> - 2026-07-28<a class="headerlink" href="#110-2026-07-28" title="Permanent link">&para;</a></h2>
+<h2 id="unreleased"><a href="https://github.com/mhmohamad1380/drf-typed-search/compare/v1.2.0...HEAD">Unreleased</a><a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
+<h2 id="120-2026-08-01"><a href="https://github.com/mhmohamad1380/drf-typed-search/compare/v1.1.0...v1.2.0">1.2.0</a> - 2026-08-01<a class="headerlink" href="#120-2026-08-01" title="Permanent link">&para;</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Optional Elasticsearch free-text backend.</strong> Set
+  <code>DYNAMIC_SEARCH["TEXT_BACKEND"] = "elasticsearch"</code> to route the <em>free-text
+  fallback</em> branch to Elasticsearch while typed/regex routing keeps hitting the
+  database. Configured per model via
+  <code>DYNAMIC_SEARCH["ELASTICSEARCH"]["INDEXES"]</code>; models that aren't indexed
+  transparently fall back to the database <code>icontains</code> branch.</li>
+<li>New optional dependency extra: <code>pip install drf-typed-search[elasticsearch]</code>
+  (<code>elasticsearch&gt;=8.0,&lt;9.0</code>). The core library still has <strong>no</strong> hard dependency
+  on it — nothing under <code>dynamic_search.elastic</code> is imported at package import
+  time.</li>
+<li>New <code>dynamic_search.elastic</code> subpackage: lazily-cached <code>client</code>, a pure
+  <code>query</code> builder (<code>build_search_query</code>), <code>indexing</code> helpers (<code>ensure_index</code>,
+  <code>serialize_instance</code>, <code>index_instance</code>, <code>delete_document</code>, <code>reindex_model</code>),
+  the <code>ElasticTextProvider</code> / <code>build_text_provider</code>, and optional <code>post_save</code> /
+  <code>post_delete</code> sync <code>signals</code>.</li>
+<li>New management command <code>manage.py reindex_search [labels...] [--recreate]
+  [--chunk-size N]</code> for initial backfill and rebuilds; a thin wrapper over
+  <code>reindex_model</code> so it can also run from Celery tasks or data migrations.</li>
+<li><code>AUTO_SYNC</code> (default <code>True</code>) keeps indexes current via model signals;
+  <code>ElasticsearchNotInstalled</code> / <code>ElasticsearchError</code> give clear, catchable
+  failures for missing dependency or unreachable cluster.</li>
+<li>Documentation: <code>docs/elasticsearch.md</code> covering routing tiers, settings
+  reference, sync, and graceful degradation.</li>
+</ul>
+<h3 id="compatibility">Compatibility<a class="headerlink" href="#compatibility" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>No public API changes and no breaking changes.</strong> <code>TEXT_BACKEND</code> defaults to
+  <code>"database"</code>, so existing installs behave exactly as in 1.1.0. Elasticsearch
+  support is purely additive — a minor release. Upgrade is a drop-in
+  <code>pip install -U drf-typed-search</code>.</li>
+</ul>
+<h2 id="110-2026-07-28"><a href="https://github.com/mhmohamad1380/drf-typed-search/compare/v1.0.0...v1.1.0">1.1.0</a> - 2026-07-28<a class="headerlink" href="#110-2026-07-28" title="Permanent link">&para;</a></h2>
+<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Matcher priority.</strong> Matchers may declare an integer <code>priority</code> in
   <code>DYNAMIC_SEARCH["MATCHERS"]</code>. When several matchers could match the same
@@ -1202,7 +1314,7 @@ adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>
 <li><code>SearchEngine</code> gained <code>__slots__</code> for lower memory and faster attribute
   access.</li>
 </ul>
-<h3 id="compatibility">Compatibility<a class="headerlink" href="#compatibility" title="Permanent link">&para;</a></h3>
+<h3 id="compatibility_1">Compatibility<a class="headerlink" href="#compatibility_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>No public API changes.</strong> <code>DynamicSearchBackend</code>, <code>SearchEngine</code>,
   <code>search_fields_config</code>, matchers, and all documented settings behave exactly
@@ -1211,7 +1323,7 @@ adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>
   <code>_compiled_cache</code> → <code>_engine_cache</code> (internal only).</li>
 </ul>
 <h2 id="100-2026-07-28"><a href="https://github.com/mhmohamad1380/drf-typed-search/releases/tag/v1.0.0">1.0.0</a> - 2026-07-28<a class="headerlink" href="#100-2026-07-28" title="Permanent link">&para;</a></h2>
-<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
+<h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Initial public release.</li>
 <li><code>DynamicSearchBackend</code> — DRF filter backend with type-aware routing.</li>
