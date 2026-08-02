@@ -48,6 +48,7 @@ nav:
   - Guides:
       - Matchers: matchers.md
       - Elasticsearch backend: elasticsearch.md
+      - With vs without Elasticsearch: elasticsearch-vs-database.md
       - Annotations & custom SQL: advanced.md
       - Comparison with DRF SearchFilter: comparison.md
 

@@ -12,13 +12,13 @@
         <meta name="author" content="dynamic_search contributors">
       
       
-        <link rel="canonical" href="https://mhmohamad1380.github.io/drf-typed-search/changelog/">
+        <link rel="canonical" href="https://mhmohamad1380.github.io/drf-typed-search/elasticsearch-vs-database/">
       
       
-        <link rel="prev" href="../BENCHMARKS/">
+        <link rel="prev" href="../elasticsearch/">
       
       
-        <link rel="next" href="../release-notes/">
+        <link rel="next" href="../advanced/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Changelog - drf-typed-search</title>
+        <title>With vs without Elasticsearch - drf-typed-search</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#changelog" class="md-skip">
+        <a href="#with-vs-without-elasticsearch" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Changelog
+              With vs without Elasticsearch
             
           </span>
         </div>
@@ -433,8 +433,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -445,11 +447,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -470,7 +472,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -541,10 +543,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../elasticsearch-vs-database/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    With vs without Elasticsearch
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -560,6 +589,154 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-each-free-text-path-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How each free-text path works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How each free-text path works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-elasticsearch-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Without Elasticsearch (default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-elasticsearch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Elasticsearch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-world-query-times-live-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-world query times (live cluster)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Real-world query times (live cluster)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#result-elasticsearch-9x-file-backed-sqlite-measured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result (Elasticsearch 9.x, file-backed SQLite — measured)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#db-side-cost-breakdown-no-cluster-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DB-side cost breakdown (no cluster required)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DB-side cost breakdown (no cluster required)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#result-sqlite-in-memory-indicative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result (SQLite, in-memory — indicative)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-which" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use which
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-parity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correctness parity
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -775,8 +952,6 @@
       
   
   
-    
-  
   
   
     
@@ -789,11 +964,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -814,7 +989,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -829,37 +1004,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Changelog
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
         
   
   
@@ -875,154 +1023,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#unreleased" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Unreleased
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#120-2026-08-01" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.2.0 - 2026-08-01
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1.2.0 - 2026-08-01">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Added
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compatibility" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Compatibility
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#110-2026-07-28" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.1.0 - 2026-07-28
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1.1.0 - 2026-07-28">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#added_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Added
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#changed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Changed
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compatibility_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Compatibility
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#100-2026-07-28" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.0.0 - 2026-07-28
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1.0.0 - 2026-07-28">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#added_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Added
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1118,10 +1118,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unreleased" class="md-nav__link">
+  <a href="#at-a-glance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Unreleased
+        At a glance
       
     </span>
   </a>
@@ -1129,22 +1129,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#120-2026-08-01" class="md-nav__link">
+  <a href="#how-each-free-text-path-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.2.0 - 2026-08-01
+        How each free-text path works
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1.2.0 - 2026-08-01">
+    <nav class="md-nav" aria-label="How each free-text path works">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#without-elasticsearch-default" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Added
+        Without Elasticsearch (default)
       
     </span>
   </a>
@@ -1152,10 +1152,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#compatibility" class="md-nav__link">
+  <a href="#with-elasticsearch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Compatibility
+        With Elasticsearch
       
     </span>
   </a>
@@ -1168,44 +1168,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#110-2026-07-28" class="md-nav__link">
+  <a href="#real-world-query-times-live-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.1.0 - 2026-07-28
+        Real-world query times (live cluster)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1.1.0 - 2026-07-28">
+    <nav class="md-nav" aria-label="Real-world query times (live cluster)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_1" class="md-nav__link">
+  <a href="#result-elasticsearch-9x-file-backed-sqlite-measured" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Added
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#changed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Changed
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compatibility_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Compatibility
+        Result (Elasticsearch 9.x, file-backed SQLite — measured)
       
     </span>
   </a>
@@ -1218,22 +1196,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#100-2026-07-28" class="md-nav__link">
+  <a href="#db-side-cost-breakdown-no-cluster-required" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.0.0 - 2026-07-28
+        DB-side cost breakdown (no cluster required)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1.0.0 - 2026-07-28">
+    <nav class="md-nav" aria-label="DB-side cost breakdown (no cluster required)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_2" class="md-nav__link">
+  <a href="#result-sqlite-in-memory-indicative" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Added
+        Result (SQLite, in-memory — indicative)
       
     </span>
   </a>
@@ -1242,6 +1220,28 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-which" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use which
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-parity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correctness parity
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1265,111 +1265,333 @@
   
 
 
-<h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
-<p>All notable changes to this project are documented here. The format follows
-<a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a> and this project
-adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
-<h2 id="unreleased"><a href="https://github.com/mhmohamad1380/drf-typed-search/compare/v1.2.0...HEAD">Unreleased</a><a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
-<h2 id="120-2026-08-01"><a href="https://github.com/mhmohamad1380/drf-typed-search/compare/v1.1.0...v1.2.0">1.2.0</a> - 2026-08-01<a class="headerlink" href="#120-2026-08-01" title="Permanent link">&para;</a></h2>
-<h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
+<h1 id="with-vs-without-elasticsearch">With vs without Elasticsearch<a class="headerlink" href="#with-vs-without-elasticsearch" title="Permanent link">&para;</a></h1>
+<p><code>drf-typed-search</code> always routes a search value the same way:</p>
+<ol>
+<li><strong>Typed routing</strong> (regex / callable matchers, or a field's own regex) → a
+   precise, index-friendly <strong>database</strong> lookup. This branch is <em>identical</em>
+   whether or not Elasticsearch is enabled — it never touches ES.</li>
+<li><strong>Free-text fallback</strong> → the only branch that changes. By default it runs an
+   ORM <code>icontains</code> (<code>OR</code> across fields, <code>AND</code> across terms). Set
+   <code>TEXT_BACKEND = "elasticsearch"</code> and it is served by Elasticsearch instead.</li>
+</ol>
+<p>This page compares those two configurations of the <strong>free-text branch</strong> — what
+changes, when to use each, and how they perform.</p>
+<p>For setup and configuration details see the
+<a href="../elasticsearch/">Elasticsearch backend guide</a>.</p>
+<hr />
+<h2 id="at-a-glance">At a glance<a class="headerlink" href="#at-a-glance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Without Elasticsearch (database)</th>
+<th>With Elasticsearch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Typed routing</td>
+<td>Database, indexed lookup</td>
+<td><strong>Same</strong> — database, indexed lookup</td>
+</tr>
+<tr>
+<td>Free-text matching</td>
+<td><code>ILIKE '%term%'</code> across fields</td>
+<td>Analyzer + <code>multi_match</code> in ES</td>
+</tr>
+<tr>
+<td>Typo tolerance</td>
+<td>None</td>
+<td>Yes (<code>fuzziness: AUTO</code>)</td>
+</tr>
+<tr>
+<td>Relevance ranking</td>
+<td>None (DB order)</td>
+<td>Yes (ES score), preserved in the queryset</td>
+</tr>
+<tr>
+<td>Cost model (free text)</td>
+<td>Sequential scan, grows with table size</td>
+<td>Bounded <code>pk IN (...)</code> fetch + ES query</td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td>None</td>
+<td><code>elasticsearch&gt;=8.0,&lt;9.0</code>, a running cluster</td>
+</tr>
+<tr>
+<td>Data freshness</td>
+<td>Always live (single source)</td>
+<td>DB is source of truth; index synced via signals</td>
+</tr>
+<tr>
+<td>Operational overhead</td>
+<td>None</td>
+<td>Cluster to run, indexes to build/keep in sync</td>
+</tr>
+<tr>
+<td>Result shape</td>
+<td>Real Django <code>QuerySet</code></td>
+<td>Real Django <code>QuerySet</code> (identical downstream)</td>
+</tr>
+</tbody>
+</table>
+<p>Key point: <strong>both return a real Django <code>QuerySet</code></strong>, so DRF serializers,
+pagination, permissions and <code>select_related</code>/<code>prefetch_related</code> behave the same
+either way. Switching backends is a settings change, not an API change.</p>
+<hr />
+<h2 id="how-each-free-text-path-works">How each free-text path works<a class="headerlink" href="#how-each-free-text-path-works" title="Permanent link">&para;</a></h2>
+<h3 id="without-elasticsearch-default">Without Elasticsearch (default)<a class="headerlink" href="#without-elasticsearch-default" title="Permanent link">&para;</a></h3>
+<p>The engine builds a single ORM query:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">account</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">username</span><span class="w"> </span><span class="k">ILIKE</span><span class="w"> </span><span class="s1">&#39;%john%&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">ILIKE</span><span class="w"> </span><span class="s1">&#39;%john%&#39;</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="p">(</span><span class="n">username</span><span class="w"> </span><span class="k">ILIKE</span><span class="w"> </span><span class="s1">&#39;%smith%&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">ILIKE</span><span class="w"> </span><span class="s1">&#39;%smith%&#39;</span><span class="p">)</span>
+</span></code></pre></div>
 <ul>
-<li><strong>Optional Elasticsearch free-text backend.</strong> Set
-  <code>DYNAMIC_SEARCH["TEXT_BACKEND"] = "elasticsearch"</code> to route the <em>free-text
-  fallback</em> branch to Elasticsearch while typed/regex routing keeps hitting the
-  database. Configured per model via
-  <code>DYNAMIC_SEARCH["ELASTICSEARCH"]["INDEXES"]</code>; models that aren't indexed
-  transparently fall back to the database <code>icontains</code> branch.</li>
-<li>New optional dependency extra: <code>pip install drf-typed-search[elasticsearch]</code>
-  (<code>elasticsearch&gt;=8.0,&lt;9.0</code>). The core library still has <strong>no</strong> hard dependency
-  on it — nothing under <code>dynamic_search.elastic</code> is imported at package import
-  time.</li>
-<li>New <code>dynamic_search.elastic</code> subpackage: lazily-cached <code>client</code>, a pure
-  <code>query</code> builder (<code>build_search_query</code>), <code>indexing</code> helpers (<code>ensure_index</code>,
-  <code>serialize_instance</code>, <code>index_instance</code>, <code>delete_document</code>, <code>reindex_model</code>),
-  the <code>ElasticTextProvider</code> / <code>build_text_provider</code>, and optional <code>post_save</code> /
-  <code>post_delete</code> sync <code>signals</code>.</li>
-<li>New management command <code>manage.py reindex_search [labels...] [--recreate]
-  [--chunk-size N]</code> for initial backfill and rebuilds; a thin wrapper over
-  <code>reindex_model</code> so it can also run from Celery tasks or data migrations.</li>
-<li><code>AUTO_SYNC</code> (default <code>True</code>) keeps indexes current via model signals;
-  <code>ElasticsearchNotInstalled</code> / <code>ElasticsearchError</code> give clear, catchable
-  failures for missing dependency or unreachable cluster.</li>
-<li>Documentation: <code>docs/elasticsearch.md</code> covering routing tiers, settings
-  reference, sync, and graceful degradation.</li>
+<li>One SQL statement regardless of term/field count.</li>
+<li><code>%term%</code> (leading wildcard) means the database <strong>cannot use a normal B-tree
+  index</strong> — it scans the table, so latency grows with row count.</li>
+<li>No typo tolerance and no relevance ordering.</li>
 </ul>
-<h3 id="compatibility">Compatibility<a class="headerlink" href="#compatibility" title="Permanent link">&para;</a></h3>
+<h3 id="with-elasticsearch">With Elasticsearch<a class="headerlink" href="#with-elasticsearch" title="Permanent link">&para;</a></h3>
+<p>The free-text value goes to Elasticsearch (<code>multi_match</code>, AND across terms, OR
+across fields, <code>fuzziness: AUTO</code>); ES does the matching and ranking and returns
+<strong>only document ids</strong> (<code>_source=False</code>). Those ids are the model primary keys,
+so the provider re-selects the rows from the database and preserves ES relevance
+order:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">account</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">88</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w">          </span><span class="c1">-- bounded by RESULT_SIZE</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">17</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">END</span>
+</span></code></pre></div>
 <ul>
-<li><strong>No public API changes and no breaking changes.</strong> <code>TEXT_BACKEND</code> defaults to
-  <code>"database"</code>, so existing installs behave exactly as in 1.1.0. Elasticsearch
-  support is purely additive — a minor release. Upgrade is a drop-in
-  <code>pip install -U drf-typed-search</code>.</li>
+<li>The <strong>text matching</strong> is done by ES out of band.</li>
+<li>The <strong>database</strong> only does an indexed primary-key fetch, whose cost is bounded
+  by <code>RESULT_SIZE</code>, not the table size.</li>
+<li>You gain fuzzy matching and relevance ranking that SQL <code>LIKE</code> cannot provide.</li>
 </ul>
-<h2 id="110-2026-07-28"><a href="https://github.com/mhmohamad1380/drf-typed-search/compare/v1.0.0...v1.1.0">1.1.0</a> - 2026-07-28<a class="headerlink" href="#110-2026-07-28" title="Permanent link">&para;</a></h2>
-<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>There are two round-trips (ES for ids, DB for rows), but they do different
+jobs — ES never re-runs in the DB, and the DB never runs a text scan.</p>
+</blockquote>
+<hr />
+<h2 id="real-world-query-times-live-cluster">Real-world query times (live cluster)<a class="headerlink" href="#real-world-query-times-live-cluster" title="Permanent link">&para;</a></h2>
+<p>This is the comparison most people want: <strong>actual free-text query latency
+without Elasticsearch vs with Elasticsearch</strong>, measured end-to-end against a
+<strong>real, running Elasticsearch cluster</strong>. Reproduce with
+<a href="https://github.com/mhmohamad1380/drf-typed-search/blob/main/benchmarks/bench_elastic_realworld.py"><code>benchmarks/bench_elastic_realworld.py</code></a>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">ES_HOST</span><span class="o">=</span>http://localhost:9200<span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>src:.<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span>python<span class="w"> </span>benchmarks/bench_elastic_realworld.py
+</span></code></pre></div>
+<p><strong>Methodology.</strong> A disk-backed SQLite <code>Account</code> table is populated with
+whitespace-separated full names (<code>"john smith 42"</code>) at growing sizes, and the
+same rows are indexed into a real Elasticsearch cluster. Each configuration runs
+the <em>same</em> <code>SearchEngine</code>, and every queryset is fully evaluated (<code>list()</code>), so
+timings include query build, real DB/ES I/O (including network to the cluster),
+row fetch and object construction. Median of 50–100 iterations after warm-up.</p>
+<p>Two queries are run:</p>
 <ul>
-<li><strong>Matcher priority.</strong> Matchers may declare an integer <code>priority</code> in
-  <code>DYNAMIC_SEARCH["MATCHERS"]</code>. When several matchers could match the same
-  value, the highest priority wins; ties fall back to declaration order. This
-  makes routing for overlapping patterns (e.g. <code>id</code> vs <code>national_code</code>)
-  explicit and deterministic. Default priority is <code>0</code> (fully backward
-  compatible).</li>
-<li><strong>Cheap regex pre-filters</strong> (<code>min_len</code>, <code>max_len</code>, <code>prefix</code>) that reject an
-  obviously-wrong value with O(1) string checks <em>before</em> the regex engine runs.</li>
-<li>
-<p>Reproducible Python-side benchmark harnesses at <code>benchmarks/bench_engine.py</code>
-  and <code>benchmarks/bench_routing_30.py</code> (worst-case 30-matcher routing cost),
-  plus a before/after section in <code>docs/BENCHMARKS.md</code>.</p>
-</li>
-<li>
-<p>Regression tests for priority routing, deterministic tie-breaks, Unicode /
-  Persian free-text, and single-application of annotations across multi-term
-  searches.</p>
-</li>
+<li><strong>exact</strong> — <code>"john smith"</code>, a phrase present verbatim (both backends match).</li>
+<li><strong>typo</strong> — <code>"jonh smith"</code>, one character off (the LIKE backend cannot match).</li>
 </ul>
-<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
+<h3 id="result-elasticsearch-9x-file-backed-sqlite-measured">Result (Elasticsearch 9.x, file-backed SQLite — measured)<a class="headerlink" href="#result-elasticsearch-9x-file-backed-sqlite-measured" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">rows</th>
+<th style="text-align: left;">query</th>
+<th style="text-align: right;">DB ms (no ES)</th>
+<th style="text-align: right;">ES ms (with ES)</th>
+<th style="text-align: right;">ES hits</th>
+<th style="text-align: right;">DB hits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: left;">exact</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">9.24</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: left;">typo</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">7.58</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">10,000</td>
+<td style="text-align: left;">exact</td>
+<td style="text-align: right;">3.83</td>
+<td style="text-align: right;">24.54</td>
+<td style="text-align: right;">140</td>
+<td style="text-align: right;">140</td>
+</tr>
+<tr>
+<td style="text-align: right;">10,000</td>
+<td style="text-align: left;">typo</td>
+<td style="text-align: right;">2.26</td>
+<td style="text-align: right;">24.58</td>
+<td style="text-align: right;">140</td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">50,000</td>
+<td style="text-align: left;">exact</td>
+<td style="text-align: right;">17.18</td>
+<td style="text-align: right;">124.79</td>
+<td style="text-align: right;">759</td>
+<td style="text-align: right;">759</td>
+</tr>
+<tr>
+<td style="text-align: right;">50,000</td>
+<td style="text-align: left;">typo</td>
+<td style="text-align: right;">10.69</td>
+<td style="text-align: right;">128.53</td>
+<td style="text-align: right;">759</td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>What this actually shows:</strong></p>
 <ul>
-<li><strong>Performance: routing plans are precompiled once.</strong> <code>SearchEngine</code> now
-  resolves matchers, orders them by priority, resolves text lookups and builds
-  ORM lookup-path strings a single time in <code>__init__</code> (stored as immutable
-  tuples). The per-request hot path no longer does dictionary lookups,
-  <code>str.join</code>, or configuration inspection.</li>
-<li><strong>Performance: the backend caches the fully-built engine per view</strong> keyed by
-  <code>(view class, config identity, settings identity)</code>. Previously a new
-  <code>SearchEngine</code> was constructed on every request; it is now built once and
-  reused, yielding a consistent ~4–9 % per-request reduction (see benchmarks).
-  The settings-identity component transparently invalidates cached engines on
-  settings changes (e.g. <code>override_settings</code>).</li>
-<li><code>SearchEngine</code> gained <code>__slots__</code> for lower memory and faster attribute
-  access.</li>
+<li><strong>Correctness parity on exact queries</strong> — ES and DB return the identical row
+  count (18 / 140 / 759), confirming the ES path maps hits back to the right
+  rows.</li>
+<li><strong>Capability, not just speed</strong> — on the <em>typo</em> query the database <code>ILIKE</code>
+  returns <strong>0 rows</strong> at every size, while Elasticsearch still finds all 759
+  (via <code>fuzziness: AUTO</code>). This is the difference <code>LIKE</code> can never close at any
+  latency.</li>
+<li><strong>Latency on this setup</strong> — against <strong>in-process SQLite</strong> the <code>LIKE</code> scan runs
+  in optimised C and is very fast, so the DB path has <em>lower latency</em> here; the
+  ES path pays a real network round-trip plus the <code>Case/When</code> relevance-ordering
+  over the returned pks. The DB scan still climbs with row count (0.8 → 17 ms)
+  while ES's <em>own</em> query stays modest — the SQLite <code>Case/When</code> re-ordering over
+  hundreds of pks is what inflates the ES column at 50k rows.</li>
 </ul>
-<h3 id="compatibility_1">Compatibility<a class="headerlink" href="#compatibility_1" title="Permanent link">&para;</a></h3>
+<p><strong>Why production flips this:</strong> SQLite is a best case for <code>LIKE</code>. On PostgreSQL
+with millions of rows an unindexed <code>ILIKE '%term%'</code> is a full sequential scan
+measured in <strong>hundreds of milliseconds to seconds</strong> (see the million-row figures
+in <a href="../BENCHMARKS/">Benchmarks</a>: a multi-field <code>ILIKE</code> is ~430 ms), whereas
+Elasticsearch answers from an inverted index in a few milliseconds and the
+follow-up <code>pk IN (...)</code> fetch is bounded by <code>RESULT_SIZE</code>. That is the regime
+where ES wins on <strong>both</strong> capability and latency. Re-run the harness against your
+own PostgreSQL to see the crossover on your data.</p>
+<hr />
+<h2 id="db-side-cost-breakdown-no-cluster-required">DB-side cost breakdown (no cluster required)<a class="headerlink" href="#db-side-cost-breakdown-no-cluster-required" title="Permanent link">&para;</a></h2>
+<p>To isolate <em>just the database work</em> each strategy generates — without a running
+cluster and without network noise — use
+<a href="https://github.com/mhmohamad1380/drf-typed-search/blob/main/benchmarks/bench_elastic_vs_db.py"><code>benchmarks/bench_elastic_vs_db.py</code></a>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">DJANGO_SETTINGS_MODULE</span><span class="o">=</span>tests.settings<span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>src:.<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span>python<span class="w"> </span>benchmarks/bench_elastic_vs_db.py
+</span></code></pre></div>
+<p><strong>Methodology.</strong> A real (in-memory SQLite) <code>Account</code> table is populated at
+growing sizes; a selective term matches 1 in every 200 rows. Elasticsearch is
+replaced by an in-process fake that returns a bounded, relevance-ordered list of
+primary keys — exactly what a real cluster returns with <code>_source=False</code> — so we
+measure <strong>the database work each strategy generates</strong>, not a network round-trip.
+Median of many iterations after warm-up.</p>
+<p>Columns:</p>
 <ul>
-<li><strong>No public API changes.</strong> <code>DynamicSearchBackend</code>, <code>SearchEngine</code>,
-  <code>search_fields_config</code>, matchers, and all documented settings behave exactly
-  as before. <code>priority</code> and the pre-filter keys are optional additions.</li>
-<li>The private backend cache attribute was renamed
-  <code>_compiled_cache</code> → <code>_engine_cache</code> (internal only).</li>
+<li><strong>DB scan</strong> — full database free-text path (<code>ILIKE '%term%'</code> over all rows).</li>
+<li><strong>ES total</strong> — full ES-path DB cost: <code>pk IN (...)</code> + <code>Case/When</code> ordering.</li>
+<li><strong>ES fetch</strong> — just the indexed <code>pk IN (...)</code> fetch, without ordering.</li>
 </ul>
-<h2 id="100-2026-07-28"><a href="https://github.com/mhmohamad1380/drf-typed-search/releases/tag/v1.0.0">1.0.0</a> - 2026-07-28<a class="headerlink" href="#100-2026-07-28" title="Permanent link">&para;</a></h2>
-<h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h3>
+<h3 id="result-sqlite-in-memory-indicative">Result (SQLite, in-memory — indicative)<a class="headerlink" href="#result-sqlite-in-memory-indicative" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">rows</th>
+<th style="text-align: right;">matches</th>
+<th style="text-align: right;">DB scan (ms)</th>
+<th style="text-align: right;">ES total (ms)</th>
+<th style="text-align: right;">ES fetch (ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.28</td>
+</tr>
+<tr>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">1.42</td>
+<td style="text-align: right;">0.32</td>
+</tr>
+<tr>
+<td style="text-align: right;">10,000</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">2.86</td>
+<td style="text-align: right;">8.32</td>
+<td style="text-align: right;">0.88</td>
+</tr>
+<tr>
+<td style="text-align: right;">50,000</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">12.84</td>
+<td style="text-align: right;">41.81</td>
+<td style="text-align: right;">3.08</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reading it honestly:</strong></p>
 <ul>
-<li>Initial public release.</li>
-<li><code>DynamicSearchBackend</code> — DRF filter backend with type-aware routing.</li>
-<li>Global matcher registry via the <code>DYNAMIC_SEARCH</code> setting supporting <strong>regex</strong>
-  and <strong>callable</strong> matchers (Strategy pattern).</li>
-<li>Per-view <code>search_fields_config</code> with <code>field</code>, <code>join</code>, <code>lookup</code>, <code>matcher</code>,
-  <code>annotate</code>, <code>queryset_builder</code>, <code>text</code>.</li>
-<li>Framework-agnostic <code>SearchEngine</code> performing typed routing and a DRF-style
-  free-text fallback (AND across terms, OR across fields, quoted phrases).</li>
-<li>Startup validation via a Django system check (<code>dynamic_search.E001</code>).</li>
-<li>Support for all standard text lookups: <code>exact</code>, <code>iexact</code>, <code>contains</code>,
-  <code>icontains</code>, <code>startswith</code>, <code>istartswith</code>, <code>endswith</code>, <code>iendswith</code>.</li>
-<li><code>concat_annotation</code> generic annotation helper.</li>
-<li>Performance features: compiled regexes, cached settings &amp; matcher objects,
-  minimal queryset cloning and annotations.</li>
-<li>Full type hints, <code>py.typed</code> marker, MyPy-strict compliance.</li>
-<li>Comprehensive pytest suite (matchers, settings, config, engine, backend,
-  performance/SQL regression).</li>
+<li>The raw <strong>ES fetch</strong> (indexed pk lookup) stays cheap and grows slowly — it is
+  bounded by <code>RESULT_SIZE</code>, not by table size. This is the structural advantage.</li>
+<li>On <strong>in-memory SQLite</strong> the <code>LIKE</code> scan runs in optimised C over a tiny table,
+  so it is extremely fast; the <code>Case/When</code> relevance ordering the ES path adds
+  actually dominates here, which is why <em>"ES total"</em> looks slower. Treat SQLite
+  as a <strong>lower bound</strong> for the DB scan, not as production.</li>
+<li>On <strong>PostgreSQL</strong> an unindexed <code>ILIKE '%term%'</code> is a genuine sequential scan
+  whose cost rises steeply with row count (see the million-row figures in
+  <a href="../BENCHMARKS/">Benchmarks</a>, where a multi-field <code>ILIKE</code> is ~430 ms). That is
+  the regime where the bounded ES fetch wins decisively. Re-run the harness with
+  <code>DYNAMIC_SEARCH_TEST_DB=postgres</code> to see the crossover on your database.</li>
+<li><strong>Not measured:</strong> the real Elasticsearch value also includes fuzzy/typo
+  tolerance and relevance ranking that <code>LIKE</code> cannot do at all, at the cost of a
+  network round-trip and running a cluster.</li>
+</ul>
+<hr />
+<h2 id="when-to-use-which">When to use which<a class="headerlink" href="#when-to-use-which" title="Permanent link">&para;</a></h2>
+<p><strong>Stay on the database (no Elasticsearch) when:</strong></p>
+<ul>
+<li>Free text is a minor feature, or your tables are small/medium.</li>
+<li>You want zero extra infrastructure and always-live data.</li>
+<li>Exact/typed lookups (ids, codes, phone numbers) are the common case — those
+  are already fast and unaffected by this choice.</li>
+</ul>
+<p><strong>Reach for Elasticsearch when:</strong></p>
+<ul>
+<li>Free-text search over large tables is a core feature and <code>ILIKE '%..%'</code> scans
+  are too slow.</li>
+<li>You need typo tolerance, relevance ranking, or analyzer-based matching
+  (stemming, multi-language).</li>
+<li>You can operate a cluster and accept eventual-consistency on the index (kept
+  in sync automatically via <code>AUTO_SYNC</code>, rebuildable via <code>reindex_search</code>).</li>
+</ul>
+<p>Because typed routing is identical either way, enabling Elasticsearch only
+changes the free-text fallback — and only for the models you list in <code>INDEXES</code>.
+Unindexed models transparently fall back to the database, so you can adopt it
+incrementally.</p>
+<hr />
+<h2 id="correctness-parity">Correctness parity<a class="headerlink" href="#correctness-parity" title="Permanent link">&para;</a></h2>
+<p><code>tests/test_elastic_vs_db.py</code> verifies that the same engine behaves consistently
+across both configurations:</p>
+<ul>
+<li>database free-text returns the expected substring matches,</li>
+<li>the Elasticsearch path preserves ES relevance order in the resulting queryset,</li>
+<li>an empty ES result yields an empty queryset, and</li>
+<li>typed routing (e.g. a national code or integer id) routes to the database in
+  <strong>both</strong> configurations and never hits Elasticsearch.</li>
 </ul>
 
 
@@ -1406,7 +1628,7 @@ adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../BENCHMARKS/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Benchmarks">
+          <a href="../elasticsearch/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Elasticsearch backend">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1416,20 +1638,20 @@ adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Benchmarks
+                Elasticsearch backend
               </div>
             </div>
           </a>
         
         
           
-          <a href="../release-notes/" class="md-footer__link md-footer__link--next" aria-label="Next: Release notes">
+          <a href="../advanced/" class="md-footer__link md-footer__link--next" aria-label="Next: Annotations &amp; custom SQL">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Release notes
+                Annotations & custom SQL
               </div>
             </div>
             <div class="md-footer__button md-icon">

@@ -32,7 +32,7 @@ from .lookups import EXACT_LOOKUPS, TEXT_LOOKUPS, VALID_LOOKUPS
 from .matchers import CallableMatcher, Matcher, RegexMatcher, build_matcher
 from .settings import get_matcher_registry, get_settings
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 
 default_app_config = "dynamic_search.apps.DynamicSearchConfig"
